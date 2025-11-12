@@ -17,24 +17,24 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-background">
       {/* Admin Navbar */}
-      <nav className="bg-secondary text-secondary-foreground border-b border-border sticky top-0 z-50">
+      <nav className="bg-muted text-foreground border-b border-border sticky top-0 z-50">
         <div className="px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-secondary/80 rounded-lg">
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-muted-foreground/10 rounded-lg">
               {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             <h1 className="text-xl font-bold">QuickKaam Admin</h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary/80">
-              <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center text-sm font-bold text-accent">
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-background border border-border">
+              <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-sm font-bold text-primary">
                 A
               </div>
               <span className="text-sm font-semibold">Admin User</span>
             </div>
             <Button
               variant="outline"
-              className="border-secondary-foreground text-secondary-foreground hover:bg-secondary/80 bg-transparent"
+              className="border-border hover:bg-muted-foreground/10"
             >
               <LogOut size={18} />
             </Button>

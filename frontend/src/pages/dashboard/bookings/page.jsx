@@ -148,7 +148,7 @@ export default function BookingsPage() {
                 </Button>
               )}
               {booking.status === "confirmed" && (
-                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-secondary">
+                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-accent">
                   Mark Complete
                 </Button>
               )}

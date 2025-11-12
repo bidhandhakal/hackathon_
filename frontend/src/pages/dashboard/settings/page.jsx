@@ -98,7 +98,7 @@ export default function SettingsPage() {
 
       {/* Save */}
       <div className="flex gap-3">
-        <Button className="flex-1 bg-primary text-primary-foreground hover:bg-secondary">Save Changes</Button>
+        <Button className="flex-1 bg-primary text-primary-foreground hover:bg-accent">Save Changes</Button>
       </div>
     </div>
   )
