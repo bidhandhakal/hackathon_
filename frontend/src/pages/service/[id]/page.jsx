@@ -56,7 +56,7 @@ export default function ServiceDetailPage() {
         <div className="text-center">
           <h1 className="text-3xl font-bold text-foreground mb-2">Service not found</h1>
           <Link to="/explore">
-            <Button className="bg-primary text-primary-foreground hover:bg-secondary mt-4">Back to Services</Button>
+            <Button className="bg-primary text-primary-foreground hover:bg-accent mt-4">Back to Services</Button>
           </Link>
         </div>
       </div>
@@ -178,7 +178,7 @@ export default function ServiceDetailPage() {
                 </div>
 
                 <div className="mt-4 flex gap-3">
-                  <Button className="flex-1 bg-primary text-primary-foreground hover:bg-secondary">
+                  <Button className="flex-1 bg-primary text-primary-foreground hover:bg-accent">
                     <MessageSquare size={16} className="mr-2" />
                     Message
                   </Button>
@@ -256,7 +256,7 @@ export default function ServiceDetailPage() {
               <Button
                 onClick={() => setShowBooking(true)}
                 size="lg"
-                className="w-full bg-primary text-primary-foreground hover:bg-secondary h-12"
+                className="w-full bg-primary text-primary-foreground hover:bg-accent h-12"
               >
                 <Calendar size={18} className="mr-2" />
                 Book Now

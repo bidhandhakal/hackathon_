@@ -60,7 +60,7 @@ export default function VerifyEmailPage() {
 
             <div className="pt-4">
               <Link to="/dashboard">
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-secondary">
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-accent">
                   Go to Dashboard
                 </Button>
               </Link>
@@ -101,7 +101,7 @@ export default function VerifyEmailPage() {
           <Button
             type="submit"
             disabled={isLoading || code.some((c) => !c)}
-            className="w-full bg-primary text-primary-foreground hover:bg-secondary"
+            className="w-full bg-primary text-primary-foreground hover:bg-accent"
           >
             {isLoading ? "Verifying..." : "Verify Email"}
           </Button>

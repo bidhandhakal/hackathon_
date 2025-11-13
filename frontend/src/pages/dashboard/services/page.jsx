@@ -50,7 +50,7 @@ export default function ServicesPage() {
           <p className="text-muted-foreground">Manage your service offerings</p>
         </div>
         <Link to="/dashboard/services/new">
-          <Button className="bg-primary text-primary-foreground hover:bg-secondary">+ Add Service</Button>
+          <Button className="bg-primary text-primary-foreground hover:bg-accent">+ Add Service</Button>
         </Link>
       </div>
 

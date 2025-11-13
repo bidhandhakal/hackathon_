@@ -145,7 +145,7 @@ export default function AdminReportsPage() {
                   Review
                 </Button>
                 {report.status === "open" && (
-                  <Button size="sm" className="bg-primary text-primary-foreground hover:bg-secondary">
+                  <Button size="sm" className="bg-primary text-primary-foreground hover:bg-accent">
                     <CheckCircle size={14} className="mr-1" />
                     Investigate
                   </Button>

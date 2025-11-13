@@ -230,12 +230,12 @@ export default function BookingModal({ isOpen, onClose, service }) {
                 <Button
                   type="button"
                   onClick={handleNext}
-                  className="flex-1 bg-primary text-primary-foreground hover:bg-secondary"
+                  className="flex-1 bg-primary text-primary-foreground hover:bg-accent"
                 >
                   Continue
                 </Button>
               ) : (
-                <Button type="submit" className="flex-1 bg-primary text-primary-foreground hover:bg-secondary">
+                <Button type="submit" className="flex-1 bg-primary text-primary-foreground hover:bg-accent">
                   Confirm Booking
                 </Button>
               )}

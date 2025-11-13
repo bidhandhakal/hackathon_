@@ -131,7 +131,7 @@ export default function DashboardOverview() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Link to="/dashboard/services/new">
-          <Button className="w-full bg-primary text-primary-foreground hover:bg-secondary h-12">
+          <Button className="w-full bg-primary text-primary-foreground hover:bg-accent h-12">
             + Add New Service
           </Button>
         </Link>

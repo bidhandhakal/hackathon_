@@ -199,7 +199,7 @@ export default function BecomeServiceProviderPage() {
 
               <div className="text-center pt-8">
                 <Link to="/auth/signup?type=provider">
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-secondary">
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-accent">
                     Sign Up as Service Provider
                   </Button>
                 </Link>

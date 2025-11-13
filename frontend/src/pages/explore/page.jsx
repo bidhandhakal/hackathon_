@@ -254,7 +254,7 @@ export default function ExplorePage() {
                   setSearchTerm("")
                   setPriceRange([0, 300])
                 }}
-                className="mt-4 bg-primary text-primary-foreground hover:bg-secondary"
+                className="mt-4 bg-primary text-primary-foreground hover:bg-accent"
               >
                 Clear Filters
               </Button>

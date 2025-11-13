@@ -129,7 +129,7 @@ export default function MessagesPage() {
               placeholder="Type your message..."
               className="bg-muted border-border text-foreground"
             />
-            <Button className="bg-primary text-primary-foreground hover:bg-secondary px-4">
+            <Button className="bg-primary text-primary-foreground hover:bg-accent px-4">
               <Send size={18} />
             </Button>
           </div>

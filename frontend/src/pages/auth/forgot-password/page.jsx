@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
 
             <div className="pt-4 space-y-3">
               <Link to="/auth/login" className="block">
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-secondary">Back to Login</Button>
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-accent">Back to Login</Button>
               </Link>
               <button
                 onClick={() => setSubmitted(false)}
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-primary text-primary-foreground hover:bg-secondary"
+            className="w-full bg-primary text-primary-foreground hover:bg-accent"
           >
             {isLoading ? "Sending..." : "Send Reset Link"}
           </Button>

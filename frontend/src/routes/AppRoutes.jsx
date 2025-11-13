@@ -89,7 +89,7 @@ const AppRoutes = () => {
               </p>
               <a
                 href="/"
-                className="inline-block mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-secondary transition-colors"
+                className="inline-block mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-accent transition-colors"
               >
                 Go Home
               </a>

@@ -74,7 +74,7 @@ export default function Navbar() {
               </div>
 
               <Link to="/auth/login">
-                <Button className="bg-primary text-primary-foreground hover:bg-secondary">Sign In</Button>
+                <Button className="bg-primary text-primary-foreground hover:bg-accent">Sign In</Button>
               </Link>
             </div>
 
