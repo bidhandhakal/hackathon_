@@ -9,7 +9,7 @@ export default function Home() {
       <section className="bg-gradient-to-b from-primary/5 to-background py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="space-y-6 animate-in fade-in-50 slide-in-from-left-10 duration-700">
               <h1 className="text-4xl md:text-5xl font-bold text-balance text-foreground">
                 Get Work Done <span className="text-primary">Today</span>
               </h1>
@@ -19,7 +19,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/explore">
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-accent w-full sm:w-auto">
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-accent w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                     Find Services <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </Link>
@@ -27,7 +27,7 @@ export default function Home() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full sm:w-auto border-border hover:bg-muted"
+                    className="w-full sm:w-auto border-border hover:bg-muted shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
                   >
                     Become a Provider
                   </Button>
@@ -35,8 +35,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="hidden md:flex items-center justify-center">
-              <div className="w-full h-80 bg-gradient-to-br from-primary/10 to-accent/5 rounded-3xl flex items-center justify-center border border-border shadow-sm">
+            <div className="hidden md:flex items-center justify-center animate-in fade-in-50 slide-in-from-right-10 duration-700">
+              <div className="w-full h-80 bg-gradient-to-br from-primary/10 to-accent/5 rounded-3xl flex items-center justify-center border border-border shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="text-center space-y-4">
                   <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border-2 border-primary/20">
                     <Users className="w-10 h-10 text-primary" />
@@ -75,7 +75,7 @@ export default function Home() {
                 description: "Book services instantly with real-time availability and instant confirmation.",
               },
             ].map((feature, idx) => (
-              <div key={idx} className="bg-card rounded-xl p-8 border border-border hover:shadow-lg transition-shadow">
+              <div key={idx} className="bg-card rounded-xl p-8 border border-border hover:shadow-lg transition-all duration-300 hover:scale-105 animate-in fade-in-50 slide-in-from-bottom-5" style={{animationDelay: `${idx * 150}ms`}}>
                 <div className="mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-semibold mb-3 text-foreground">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
@@ -97,7 +97,7 @@ export default function Home() {
             {["Plumbing", "Electrical", "Cleaning", "Landscaping", "Carpentry", "Painting", "HVAC", "Tutoring"].map(
               (category, idx) => (
                 <Link key={idx} to={`/explore?category=${category.toLowerCase()}`}>
-                  <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl p-6 text-center hover:shadow-md hover:from-primary/10 hover:to-accent/10 transition-all cursor-pointer border border-border">
+                  <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl p-6 text-center hover:shadow-lg hover:from-primary/10 hover:to-accent/10 transition-all duration-300 cursor-pointer border border-border hover:scale-105 animate-in fade-in-50 zoom-in-50" style={{animationDelay: `${idx * 100}ms`}}>
                     <div className="w-12 h-12 mx-auto mb-4 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
                       <span className="text-xl">📦</span>
                     </div>
@@ -115,7 +115,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-lg mb-8 opacity-95">Join thousands of satisfied customers who trust QuickKaam</p>
           <Link to="/explore">
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-lg">
+            <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
               Browse Services Now <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>
