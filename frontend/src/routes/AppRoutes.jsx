@@ -25,6 +25,9 @@ import DashboardBookingsPage from "@/pages/dashboard/bookings/page";
 import DashboardServicesPage from "@/pages/dashboard/services/page";
 import DashboardMessagesPage from "@/pages/dashboard/messages/page";
 import DashboardSettingsPage from "@/pages/dashboard/settings/page";
+import Homepage from "@/pages/aftersignup/homepage";
+import FirstQuestionPage from "@/pages/aftersignup/question";
+import Profilesetup from "@/pages/profilesetup/profilesetup";
 
 // Admin Pages
 import AdminPage from "@/pages/admin/page";
@@ -32,7 +35,8 @@ import AdminUsersPage from "@/pages/admin/users/page";
 import AdminServicesPage from "@/pages/admin/services/page";
 import AdminReportsPage from "@/pages/admin/reports/page";
 
-//lamo dhel haru
+
+
 
 const AppRoutes = () => {
   return (
@@ -42,12 +46,15 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/service/:id" element={<ServiceDetailPage />} />
-        <Route
-          path="/become-service-provider"
-          element={<BecomeProviderPage />}
-        />
+        <Route path="/become-service-provider" element={<BecomeProviderPage />}/>
       </Route>
 
+      {/* After Signup Route (No Layout) */}
+      <Route path="/aftersignup" element={<Homepage />} />
+      <Route path="/aftersignup/questions" element={<FirstQuestionPage />} />
+      <Route path="/aftersignup/profilesetup" element={<Profilesetup />} />
+
+    
       {/* Auth Routes with Layout */}
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
@@ -64,6 +71,7 @@ const AppRoutes = () => {
         <Route path="services" element={<DashboardServicesPage />} />
         <Route path="messages" element={<DashboardMessagesPage />} />
         <Route path="settings" element={<DashboardSettingsPage />} />
+
       </Route>
 
       {/* Admin Routes with Layout */}
@@ -89,7 +97,7 @@ const AppRoutes = () => {
               </p>
               <a
                 href="/"
-                className="inline-block mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-accent transition-colors"
+                className="inline-block mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-secondary transition-colors"
               >
                 Go Home
               </a>
