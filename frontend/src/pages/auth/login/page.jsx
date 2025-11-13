@@ -1,35 +1,45 @@
-
-
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card } from "@/components/ui/card"
-import { Mail, Lock, Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import api from "@/lib/api";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError("")
-    setIsLoading(true)
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
-    // Simulated login - replace with actual API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log("Login with:", { email, password })
+      const response = await api.auth.login(email, password);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      // Store user data and token in localStorage
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+
+      // Redirect to dashboard
+      navigate("/dashboard");
     } catch (err) {
-      setError("Invalid email or password")
+      setError(err.message || "Invalid email or password");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="w-full max-w-md">
@@ -42,7 +52,9 @@ export default function LoginPage() {
             <span>QuickKaam</span>
           </div>
           <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
-          <p className="text-muted-foreground text-sm mt-2">Sign in to your account to continue</p>
+          <p className="text-muted-foreground text-sm mt-2">
+            Sign in to your account to continue
+          </p>
         </div>
 
         {error && (
@@ -117,7 +129,9 @@ export default function LoginPage() {
             <div className="w-full border-t border-border"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="px-2 bg-card text-muted-foreground">Or continue with</span>
+            <span className="px-2 bg-card text-muted-foreground">
+              Or continue with
+            </span>
           </div>
         </div>
 
@@ -132,12 +146,14 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground mt-6">
           Don't have an account?{" "}
-          <Link to="/auth/signup" className="text-primary hover:text-secondary font-semibold transition-colors">
+          <Link
+            to="/auth/signup"
+            className="text-primary hover:text-secondary font-semibold transition-colors"
+          >
             Sign up
           </Link>
         </p>
       </Card>
     </div>
-  )
+  );
 }
-
