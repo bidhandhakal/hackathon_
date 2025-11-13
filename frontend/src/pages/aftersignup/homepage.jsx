@@ -22,7 +22,7 @@ export default function ProfileCarousel() {
       hourlyRate: "$65.00/hr",
       jobs: "14 jobs",
       testimonial:
-        '"Upwork has enabled me to increase my rates. I know what I\'m bringing to the table and love the feeling of being able to help a variety of clients."',
+        '"Quickkam has enabled me to increase my rates. I know what I\'m bringing to the table and love the feeling of being able to help a variety of clients."',
       isTopRated: true,
     },
     {

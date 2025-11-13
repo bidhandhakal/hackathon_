@@ -27,12 +27,15 @@ import DashboardMessagesPage from "@/pages/dashboard/messages/page";
 import DashboardSettingsPage from "@/pages/dashboard/settings/page";
 import Homepage from "@/pages/aftersignup/homepage";
 import FirstQuestionPage from "@/pages/aftersignup/question";
+import Profilesetup from "@/pages/profilesetup/profilesetup";
 
 // Admin Pages
 import AdminPage from "@/pages/admin/page";
 import AdminUsersPage from "@/pages/admin/users/page";
 import AdminServicesPage from "@/pages/admin/services/page";
 import AdminReportsPage from "@/pages/admin/reports/page";
+
+
 
 
 const AppRoutes = () => {
@@ -49,7 +52,9 @@ const AppRoutes = () => {
       {/* After Signup Route (No Layout) */}
       <Route path="/aftersignup" element={<Homepage />} />
       <Route path="/aftersignup/questions" element={<FirstQuestionPage />} />
+      <Route path="/aftersignup/profilesetup" element={<Profilesetup />} />
 
+    
       {/* Auth Routes with Layout */}
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
