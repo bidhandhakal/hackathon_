@@ -1,11 +1,9 @@
-
-
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card } from "@/components/ui/card"
-import { Star, MapPin, Upload } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { Star, MapPin, Upload } from "lucide-react";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState({
@@ -19,9 +17,9 @@ export default function ProfilePage() {
     reviews: 256,
     completedJobs: 512,
     verified: true,
-  })
+  });
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <div className="p-6 md:p-8 space-y-8">
@@ -59,22 +57,32 @@ export default function ProfilePage() {
             </div>
             <div className="flex items-center justify-center gap-1 text-center">
               <Star size={16} className="fill-accent text-accent" />
-              <span className="font-bold text-foreground">{profile.rating}</span>
-              <span className="text-muted-foreground">({profile.reviews} reviews)</span>
+              <span className="font-bold text-foreground">
+                {profile.rating}
+              </span>
+              <span className="text-muted-foreground">
+                ({profile.reviews} reviews)
+              </span>
             </div>
             <div className="border-t border-border pt-4 space-y-2 text-sm">
               <div>
                 <p className="text-muted-foreground">Completed Jobs</p>
-                <p className="font-bold text-foreground">{profile.completedJobs}</p>
+                <p className="font-bold text-foreground">
+                  {profile.completedJobs}
+                </p>
               </div>
             </div>
           </Card>
 
           <Card className="p-6 border border-border bg-card">
-            <Label className="text-foreground font-semibold mb-4 block">Profile Photo</Label>
+            <Label className="text-foreground font-semibold mb-4 block">
+              Profile Photo
+            </Label>
             <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
               <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-              <p className="text-sm text-muted-foreground">Drag and drop or click to upload</p>
+              <p className="text-sm text-muted-foreground">
+                Drag and drop or click to upload
+              </p>
             </div>
           </Card>
         </div>
@@ -90,7 +98,9 @@ export default function ProfilePage() {
                 <Input
                   id="firstName"
                   value={profile.firstName}
-                  onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, firstName: e.target.value })
+                  }
                   disabled={!isEditing}
                   className="bg-muted border-border text-foreground disabled:opacity-50"
                 />
@@ -102,7 +112,9 @@ export default function ProfilePage() {
                 <Input
                   id="lastName"
                   value={profile.lastName}
-                  onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, lastName: e.target.value })
+                  }
                   disabled={!isEditing}
                   className="bg-muted border-border text-foreground disabled:opacity-50"
                 />
@@ -117,7 +129,9 @@ export default function ProfilePage() {
                 id="email"
                 type="email"
                 value={profile.email}
-                onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                onChange={(e) =>
+                  setProfile({ ...profile, email: e.target.value })
+                }
                 disabled={!isEditing}
                 className="bg-muted border-border text-foreground disabled:opacity-50"
               />
@@ -131,7 +145,9 @@ export default function ProfilePage() {
                 id="phone"
                 type="tel"
                 value={profile.phone}
-                onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                onChange={(e) =>
+                  setProfile({ ...profile, phone: e.target.value })
+                }
                 disabled={!isEditing}
                 className="bg-muted border-border text-foreground disabled:opacity-50"
               />
@@ -146,7 +162,9 @@ export default function ProfilePage() {
                 <Input
                   id="location"
                   value={profile.location}
-                  onChange={(e) => setProfile({ ...profile, location: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, location: e.target.value })
+                  }
                   disabled={!isEditing}
                   className="pl-10 bg-muted border-border text-foreground disabled:opacity-50"
                 />
@@ -160,7 +178,9 @@ export default function ProfilePage() {
               <textarea
                 id="bio"
                 value={profile.bio}
-                onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
+                onChange={(e) =>
+                  setProfile({ ...profile, bio: e.target.value })
+                }
                 disabled={!isEditing}
                 rows={4}
                 className="w-full px-3 py-2 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
@@ -169,7 +189,10 @@ export default function ProfilePage() {
 
             {isEditing && (
               <div className="flex gap-3">
-                <Button type="submit" className="flex-1 bg-primary text-primary-foreground hover:bg-accent">
+                <Button
+                  type="submit"
+                  className="flex-1 bg-primary text-primary-foreground hover:bg-accent"
+                >
                   Save Changes
                 </Button>
               </div>
@@ -178,6 +201,5 @@ export default function ProfilePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

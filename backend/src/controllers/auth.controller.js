@@ -21,9 +21,7 @@ async function registerUser(req, res) {
     email,
     password: hashpassword,
   });
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-  res.cookie("token", token);
   res.status(201).json({
     message: "User registered successfully",
     user: {
@@ -58,6 +56,7 @@ async function loginUser(req, res) {
 
   res.status(200).json({
     message: "User logged in successfully",
+    token,
     user: {
       _id: user._id,
       email: user.email,
@@ -73,8 +72,25 @@ function logoutUser(req, res) {
   });
 }
 
+async function getProfile(req, res) {
+  try {
+    res.status(200).json({
+      user: {
+        _id: req.user._id,
+        email: req.user.email,
+        fullname: req.user.fullname,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching profile",
+    });
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  getProfile,
 };
