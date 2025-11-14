@@ -18,24 +18,13 @@ export default function ResumeImport({ onBack, onContinue }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-  const [experience, setExperience] = useState("");
+  const [hoveredCategory, setHoveredCategory] = useState(null);
   const [bio, setBio] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [currentSkill, setCurrentSkill] = useState("");
-  const [education, setEducation] = useState([
-    { school: "", degree: "", year: "" },
-  ]);
-  const [certifications, setCertifications] = useState([
-    { name: "", year: "" },
-  ]);
-  const [hourlyRate, setHourlyRate] = useState("");
-  const [languages, setLanguages] = useState([
-    { language: "", proficiency: "" },
-  ]);
   const [availability, setAvailability] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
   const fileInputRef = useRef(null);
   const photoInputRef = useRef(null);
+  const hoverTimeoutRef = useRef(null);
 
   const options = [
     {
@@ -199,30 +188,40 @@ export default function ResumeImport({ onBack, onContinue }) {
     }
   };
 
+  const handleCategoryHover = (category) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setHoveredCategory(category);
+    setSelectedCategory(category);
+  };
+
+  const handleCategoryLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredCategory(null);
+    }, 300);
+  };
+
+  const handleSpecialtyPanelEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+  };
+
+  const handleSpecialtyPanelLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredCategory(null);
+    }, 300);
+  };
+
   const handleStepContinue = () => {
-    if (currentStep === 1 && selectedCategory) {
+    if (currentStep === 1 && selectedCategory && selectedSpecialties.length >= 1) {
       setCurrentStep(2);
-    } else if (
-      currentStep === 2 &&
-      selectedSpecialties.length >= 1 &&
-      selectedSpecialties.length <= 3
-    ) {
+    } else if (currentStep === 2 && bio.length >= 50) {
       setCurrentStep(3);
-    } else if (currentStep === 3 && experience) {
+    } else if (currentStep === 3 && availability) {
       setCurrentStep(4);
-    } else if (currentStep === 4 && bio.length >= 50) {
-      setCurrentStep(5);
-    } else if (currentStep === 5 && skills.length >= 3) {
-      setCurrentStep(6);
-    } else if (currentStep === 6) {
-      setCurrentStep(7);
-    } else if (currentStep === 7 && hourlyRate) {
-      setCurrentStep(8);
-    } else if (currentStep === 8) {
-      setCurrentStep(9);
-    } else if (currentStep === 9 && availability) {
-      setCurrentStep(10);
-    } else if (currentStep === 10) {
+    } else if (currentStep === 4) {
       onContinue?.();
     }
   };
@@ -238,122 +237,160 @@ export default function ResumeImport({ onBack, onContinue }) {
     }
   };
 
-  const addSkill = () => {
-    if (currentSkill.trim() && skills.length < 15) {
-      setSkills([...skills, currentSkill.trim()]);
-      setCurrentSkill("");
-    }
-  };
-
-  const removeSkill = (index) => {
-    setSkills(skills.filter((_, i) => i !== index));
-  };
-
-  const addEducation = () => {
-    setEducation([...education, { school: "", degree: "", year: "" }]);
-  };
-
-  const removeEducation = (index) => {
-    setEducation(education.filter((_, i) => i !== index));
-  };
-
-  const updateEducation = (index, field, value) => {
-    const updated = [...education];
-    updated[index][field] = value;
-    setEducation(updated);
-  };
-
-  const addCertification = () => {
-    setCertifications([...certifications, { name: "", year: "" }]);
-  };
-
-  const removeCertification = (index) => {
-    setCertifications(certifications.filter((_, i) => i !== index));
-  };
-
-  const updateCertification = (index, field, value) => {
-    const updated = [...certifications];
-    updated[index][field] = value;
-    setCertifications(updated);
-  };
-
-  const addLanguage = () => {
-    setLanguages([...languages, { language: "", proficiency: "" }]);
-  };
-
-  const removeLanguage = (index) => {
-    setLanguages(languages.filter((_, i) => i !== index));
-  };
-
-  const updateLanguage = (index, field, value) => {
-    const updated = [...languages];
-    updated[index][field] = value;
-    setLanguages(updated);
-  };
-
-  // Render step 1: Category selection
+  // Render step 1: Category and Specialty selection (merged)
   if (currentStep === 1) {
     return (
       <div className="min-h-screen bg-white">
         <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* Progress Section */}
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">
                   Create your profile
                 </h2>
-                <span className="text-lg text-gray-500 font-medium">1/10</span>
+                <span className="text-lg text-gray-500 font-medium">1/5</span>
               </div>
-              <div className="w-16 h-1 bg-primary rounded-full"></div>
+              <div className="w-32 h-1 bg-primary rounded-full"></div>
             </div>
 
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">
-              Select 1 category
-            </h1>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Left Side - Category Selection */}
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-6">
+                  Select 1 category
+                </h1>
 
-            {/* Categories Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-16">
-              {categories.map((category) => {
-                const categoryIcons = {
-                  Painting: "🎨",
-                  Carpentry: "🔨",
-                  Plumbing: "🔧",
-                  Electrical: "⚡",
-                  Cleaning: "🧹",
-                  HVAC: "❄️",
-                  "Landscaping & Gardening": "🌿",
-                  Roofing: "🏠",
-                  "Masonry & Concrete": "🧱",
-                  Flooring: "📐",
-                  "Home Renovation": "🏗️",
-                  "Moving & Hauling": "🚚",
-                };
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`p-4 rounded-lg border-2 transition-all text-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                      selectedCategory === category
-                        ? "border-primary bg-primary/10"
-                        : "border-gray-300 bg-white hover:border-primary hover:bg-primary/10"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">
-                        {categoryIcons[category]}
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {category}
-                      </span>
+                {/* Categories Grid */}
+                <div className="grid grid-cols-1 gap-3 mb-8">
+                  {categories.map((category) => {
+                    const categoryIcons = {
+                      Painting: "🎨",
+                      Carpentry: "🔨",
+                      Plumbing: "🔧",
+                      Electrical: "⚡",
+                      Cleaning: "🧹",
+                      HVAC: "❄️",
+                      "Landscaping & Gardening": "🌿",
+                      Roofing: "🏠",
+                      "Masonry & Concrete": "🧱",
+                      Flooring: "📐",
+                      "Home Renovation": "🏗️",
+                      "Moving & Hauling": "🚚",
+                    };
+                    return (
+                      <div
+                        key={category}
+                        className="relative"
+                        onMouseEnter={() => handleCategoryHover(category)}
+                        onMouseLeave={handleCategoryLeave}
+                      >
+                        <div
+                          className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
+                            hoveredCategory === category
+                              ? "border-primary bg-primary/10"
+                              : "border-gray-300 bg-white hover:border-primary hover:bg-primary/10"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">
+                              {categoryIcons[category]}
+                            </span>
+                            <span className="font-semibold text-gray-900">
+                              {category}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Right Side - Specialty Dropdown (appears on hover) */}
+              <div className="relative">
+                <div 
+                  className="sticky top-8"
+                  onMouseEnter={handleSpecialtyPanelEnter}
+                  onMouseLeave={handleSpecialtyPanelLeave}
+                >
+                  {hoveredCategory && (
+                    <div className="bg-white rounded-lg border-2 border-primary shadow-lg p-6 animate-in fade-in slide-in-from-right-5 duration-200">
+                      <div className="mb-4">
+                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                          {hoveredCategory}
+                        </span>
+                      </div>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                        Select 1 to 3 specialties
+                      </h2>
+                      <div className="space-y-2 max-h-96 overflow-y-auto">
+                        {specialties[hoveredCategory]?.map((specialty) => (
+                          <button
+                            key={specialty}
+                            onClick={() => handleSpecialtyToggle(specialty)}
+                            disabled={
+                              !selectedSpecialties.includes(specialty) &&
+                              selectedSpecialties.length >= 3
+                            }
+                            className={`w-full p-3 rounded-lg border-2 transition-all text-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
+                              selectedSpecialties.includes(specialty)
+                                ? "border-primary bg-primary/10"
+                                : selectedSpecialties.length >= 3
+                                ? "border-gray-200 bg-gray-50 cursor-not-allowed"
+                                : "border-gray-300 bg-white hover:border-primary hover:bg-primary/10"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span
+                                className={`font-medium text-sm ${
+                                  selectedSpecialties.includes(specialty)
+                                    ? "text-gray-900"
+                                    : "text-gray-700"
+                                }`}
+                              >
+                                {specialty}
+                              </span>
+                              {selectedSpecialties.includes(specialty) && (
+                                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                              )}
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600 mt-4">
+                        Selected: {selectedSpecialties.length} of 3 maximum
+                      </p>
                     </div>
-                  </button>
-                );
-              })}
+                  )}
+                  
+                  {selectedSpecialties.length > 0 && (
+                    <div className="mt-4 p-4 bg-white rounded-lg border-2 border-gray-200">
+                      <h3 className="font-semibold text-gray-900 mb-2">Selected Specialties:</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedSpecialties.map((specialty, index) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full border border-primary/20 text-sm"
+                          >
+                            {specialty}
+                            <button
+                              onClick={() => handleSpecialtyToggle(specialty)}
+                              className="hover:text-accent"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Footer Navigation */}
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
+            <div className="flex items-center justify-between gap-4 pt-8 mt-8 border-t border-gray-200">
               <button
                 onClick={handleStepBack}
                 className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
@@ -364,14 +401,14 @@ export default function ResumeImport({ onBack, onContinue }) {
 
               <button
                 onClick={handleStepContinue}
-                disabled={!selectedCategory}
+                disabled={!selectedCategory || selectedSpecialties.length < 1}
                 className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                  selectedCategory
+                  selectedCategory && selectedSpecialties.length >= 1
                     ? "bg-primary text-white hover:bg-accent"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}
               >
-                Next: Select specialties
+                Continue
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -381,221 +418,18 @@ export default function ResumeImport({ onBack, onContinue }) {
     );
   }
 
-  // Render step 2: Specialty selection
+  // Render step 2: Bio/Overview
   if (currentStep === 2) {
     return (
       <div className="min-h-screen bg-white">
         <main className="px-6 py-8">
           <div className="max-w-4xl mx-auto">
-            {/* Progress Section */}
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">
                   Create your profile
                 </h2>
-                <span className="text-lg text-gray-500 font-medium">2/10</span>
-              </div>
-              <div className="w-32 h-1 bg-primary rounded-full"></div>
-            </div>
-
-            <div className="mb-2">
-              <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                {selectedCategory}
-              </span>
-            </div>
-
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">
-              Now, select 1 to 3 specialties
-            </h1>
-
-            {/* Specialties Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-16">
-              {specialties[selectedCategory]?.map((specialty) => (
-                <button
-                  key={specialty}
-                  onClick={() => handleSpecialtyToggle(specialty)}
-                  disabled={
-                    !selectedSpecialties.includes(specialty) &&
-                    selectedSpecialties.length >= 3
-                  }
-                  className={`p-4 rounded-lg border-2 transition-all text-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary relative ${
-                    selectedSpecialties.includes(specialty)
-                      ? "border-primary bg-primary/10"
-                      : selectedSpecialties.length >= 3
-                      ? "border-gray-200 bg-gray-50 cursor-not-allowed"
-                      : "border-gray-300 bg-white hover:border-primary hover:bg-primary/10"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <span
-                      className={`font-semibold ${
-                        selectedSpecialties.includes(specialty)
-                          ? "text-gray-900"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      {specialty}
-                    </span>
-                    {selectedSpecialties.includes(specialty) && (
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <p className="text-sm text-gray-600 mb-8">
-              Selected: {selectedSpecialties.length} of 3 maximum
-            </p>
-
-            {/* Footer Navigation */}
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
-              <button
-                onClick={handleStepBack}
-                className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-
-              <button
-                onClick={handleStepContinue}
-                disabled={selectedSpecialties.length < 1}
-                className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                  selectedSpecialties.length >= 1
-                    ? "bg-primary text-white hover:bg-accent"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Render step 3: Experience level
-  if (currentStep === 3) {
-    const experienceLevels = [
-      {
-        id: "beginner",
-        title: "Entry Level",
-        description: "I'm new to this field and looking to gain experience",
-        details: "Less than 1 year of experience",
-      },
-      {
-        id: "intermediate",
-        title: "Intermediate",
-        description: "I have some experience and can work independently",
-        details: "1-3 years of experience",
-      },
-      {
-        id: "expert",
-        title: "Expert",
-        description: "I'm highly experienced and can handle complex projects",
-        details: "3+ years of experience",
-      },
-    ];
-
-    return (
-      <div className="min-h-screen bg-white">
-        <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Create your profile
-                </h2>
-                <span className="text-lg text-gray-500 font-medium">3/10</span>
-              </div>
-              <div className="w-48 h-1 bg-primary rounded-full"></div>
-            </div>
-
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              What is your level of experience?
-            </h1>
-
-            <div className="flex justify-center mb-8">
-              <div className="w-full max-w-md h-48 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center border border-primary/20">
-                <div className="text-center">
-                  <div className="text-6xl mb-2">📊</div>
-                  <p className="text-sm text-gray-600 font-medium">
-                    Choose your experience level
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3 mb-16">
-              {experienceLevels.map((level) => (
-                <button
-                  key={level.id}
-                  onClick={() => setExperience(level.id)}
-                  className={`w-full p-6 rounded-lg border-2 transition-all text-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                    experience === level.id
-                      ? "border-primary bg-primary/10"
-                      : "border-gray-300 bg-white hover:border-primary hover:bg-primary/10"
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-bold text-lg text-gray-900 mb-1">
-                        {level.title}
-                      </h3>
-                      <p className="text-gray-700 mb-2">{level.description}</p>
-                      <p className="text-sm text-gray-500">{level.details}</p>
-                    </div>
-                    {experience === level.id && (
-                      <Check className="w-6 h-6 text-primary flex-shrink-0" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
-              <button
-                onClick={handleStepBack}
-                className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-
-              <button
-                onClick={handleStepContinue}
-                disabled={!experience}
-                className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                  experience
-                    ? "bg-primary text-white hover:bg-accent"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Render step 4: Bio/Overview
-  if (currentStep === 4) {
-    return (
-      <div className="min-h-screen bg-white">
-        <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Create your profile
-                </h2>
-                <span className="text-lg text-gray-500 font-medium">4/10</span>
+                <span className="text-lg text-gray-500 font-medium">2/5</span>
               </div>
               <div className="w-64 h-1 bg-primary rounded-full"></div>
             </div>
@@ -659,531 +493,8 @@ export default function ResumeImport({ onBack, onContinue }) {
     );
   }
 
-  // Render step 5: Skills
-  if (currentStep === 5) {
-    return (
-      <div className="min-h-screen bg-white">
-        <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Create your profile
-                </h2>
-                <span className="text-lg text-gray-500 font-medium">5/10</span>
-              </div>
-              <div className="w-80 h-1 bg-primary rounded-full"></div>
-            </div>
-
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                  Add your key skills
-                </h1>
-                <p className="text-lg text-gray-600">
-                  Add at least 3 skills that showcase your expertise (max 15)
-                </p>
-              </div>
-              <div className="hidden md:block">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full flex items-center justify-center border-4 border-primary/20">
-                  <span className="text-4xl">💡</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={currentSkill}
-                  onChange={(e) => setCurrentSkill(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && addSkill()}
-                  placeholder="e.g., Interior Painting, Electrical Wiring, Plumbing Repair"
-                  className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                  maxLength={50}
-                />
-                <button
-                  onClick={addSkill}
-                  disabled={!currentSkill.trim() || skills.length >= 15}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                    currentSkill.trim() && skills.length < 15
-                      ? "bg-primary text-white hover:bg-accent"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            <div className="mb-16">
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full border border-primary/20"
-                  >
-                    {skill}
-                    <button
-                      onClick={() => removeSkill(index)}
-                      className="hover:text-accent"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <p className="text-sm text-gray-500 mt-4">
-                Added: {skills.length} skills
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
-              <button
-                onClick={handleStepBack}
-                className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-
-              <button
-                onClick={handleStepContinue}
-                disabled={skills.length < 3}
-                className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                  skills.length >= 3
-                    ? "bg-primary text-white hover:bg-accent"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Render step 6: Education & Certifications
-  if (currentStep === 6) {
-    return (
-      <div className="min-h-screen bg-white">
-        <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Create your profile
-                </h2>
-                <span className="text-lg text-gray-500 font-medium">6/10</span>
-              </div>
-              <div
-                className="h-1 bg-primary rounded-full"
-                style={{ width: "60%" }}
-              ></div>
-            </div>
-
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                  Education & Certifications
-                </h1>
-                <p className="text-lg text-gray-600">
-                  Add your educational background and any relevant
-                  certifications (optional)
-                </p>
-              </div>
-              <div className="hidden md:block">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full flex items-center justify-center border-4 border-primary/20">
-                  <span className="text-4xl">🎓</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  Education
-                </h3>
-                <button
-                  onClick={addEducation}
-                  className="flex items-center gap-2 px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary/10"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Education
-                </button>
-              </div>
-              <div className="space-y-4">
-                {education.map((edu, index) => (
-                  <div
-                    key={index}
-                    className="p-4 border-2 border-gray-200 rounded-lg"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="font-semibold text-gray-700">
-                        Entry {index + 1}
-                      </h4>
-                      {education.length > 1 && (
-                        <button
-                          onClick={() => removeEducation(index)}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      )}
-                    </div>
-                    <div className="space-y-3">
-                      <input
-                        type="text"
-                        value={edu.school}
-                        onChange={(e) =>
-                          updateEducation(index, "school", e.target.value)
-                        }
-                        placeholder="School/Institution"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                      <input
-                        type="text"
-                        value={edu.degree}
-                        onChange={(e) =>
-                          updateEducation(index, "degree", e.target.value)
-                        }
-                        placeholder="Degree/Certificate"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                      <input
-                        type="text"
-                        value={edu.year}
-                        onChange={(e) =>
-                          updateEducation(index, "year", e.target.value)
-                        }
-                        placeholder="Year (e.g., 2020)"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-16">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  Certifications
-                </h3>
-                <button
-                  onClick={addCertification}
-                  className="flex items-center gap-2 px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary/10"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Certification
-                </button>
-              </div>
-              <div className="space-y-4">
-                {certifications.map((cert, index) => (
-                  <div
-                    key={index}
-                    className="p-4 border-2 border-gray-200 rounded-lg"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="font-semibold text-gray-700">
-                        Certification {index + 1}
-                      </h4>
-                      <button
-                        onClick={() => removeCertification(index)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-                    <div className="space-y-3">
-                      <input
-                        type="text"
-                        value={cert.name}
-                        onChange={(e) =>
-                          updateCertification(index, "name", e.target.value)
-                        }
-                        placeholder="Certification Name"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                      <input
-                        type="text"
-                        value={cert.year}
-                        onChange={(e) =>
-                          updateCertification(index, "year", e.target.value)
-                        }
-                        placeholder="Year Obtained"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
-              <button
-                onClick={handleStepBack}
-                className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-
-              <button
-                onClick={handleStepContinue}
-                className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary bg-primary text-white hover:bg-accent"
-              >
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Render step 7: Hourly Rate
-  if (currentStep === 7) {
-    return (
-      <div className="min-h-screen bg-white">
-        <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Create your profile
-                </h2>
-                <span className="text-lg text-gray-500 font-medium">7/10</span>
-              </div>
-              <div
-                className="h-1 bg-primary rounded-full"
-                style={{ width: "70%" }}
-              ></div>
-            </div>
-
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                  Set your hourly rate
-                </h1>
-                <p className="text-lg text-gray-600">
-                  Clients will see this rate on your profile. You can adjust it
-                  anytime.
-                </p>
-              </div>
-              <div className="hidden md:block">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full flex items-center justify-center border-4 border-primary/20">
-                  <span className="text-4xl">💰</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-16">
-              <div className="relative max-w-md">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <DollarSign className="w-6 h-6 text-gray-400" />
-                </div>
-                <input
-                  type="number"
-                  value={hourlyRate}
-                  onChange={(e) => setHourlyRate(e.target.value)}
-                  placeholder="0.00"
-                  min="0"
-                  step="0.01"
-                  className="w-full pl-12 pr-4 py-4 text-2xl font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                />
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                  <span className="text-xl text-gray-500">/hr</span>
-                </div>
-              </div>
-
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  QuickKam service fee
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  QuickKam charges a 10% service fee on your earnings
-                </p>
-                {hourlyRate && (
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Your rate:</span>
-                      <span className="font-semibold">
-                        ${parseFloat(hourlyRate).toFixed(2)}/hr
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Service fee (10%):</span>
-                      <span className="font-semibold">
-                        -${(parseFloat(hourlyRate) * 0.1).toFixed(2)}/hr
-                      </span>
-                    </div>
-                    <div className="flex justify-between pt-2 border-t border-blue-300">
-                      <span className="text-gray-900 font-semibold">
-                        You'll receive:
-                      </span>
-                      <span className="font-bold text-primary">
-                        ${(parseFloat(hourlyRate) * 0.9).toFixed(2)}/hr
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
-              <button
-                onClick={handleStepBack}
-                className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-
-              <button
-                onClick={handleStepContinue}
-                disabled={!hourlyRate || parseFloat(hourlyRate) <= 0}
-                className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
-                  hourlyRate && parseFloat(hourlyRate) > 0
-                    ? "bg-primary text-white hover:bg-accent"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Render step 8: Languages
-  if (currentStep === 8) {
-    return (
-      <div className="min-h-screen bg-white">
-        <main className="px-6 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Create your profile
-                </h2>
-                <span className="text-lg text-gray-500 font-medium">8/10</span>
-              </div>
-              <div
-                className="h-1 bg-primary rounded-full"
-                style={{ width: "80%" }}
-              ></div>
-            </div>
-
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                  What languages do you speak?
-                </h1>
-                <p className="text-lg text-gray-600">
-                  This helps clients know how to communicate with you
-                </p>
-              </div>
-              <div className="hidden md:block">
-                <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full flex items-center justify-center border-4 border-primary/20">
-                  <span className="text-4xl">🌍</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-16">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  Languages
-                </h3>
-                <button
-                  onClick={addLanguage}
-                  className="flex items-center gap-2 px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary/10"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Language
-                </button>
-              </div>
-              <div className="space-y-4">
-                {languages.map((lang, index) => (
-                  <div
-                    key={index}
-                    className="p-4 border-2 border-gray-200 rounded-lg"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="font-semibold text-gray-700">
-                        Language {index + 1}
-                      </h4>
-                      {languages.length > 1 && (
-                        <button
-                          onClick={() => removeLanguage(index)}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <input
-                        type="text"
-                        value={lang.language}
-                        onChange={(e) =>
-                          updateLanguage(index, "language", e.target.value)
-                        }
-                        placeholder="Language (e.g., English)"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                      <select
-                        value={lang.proficiency}
-                        onChange={(e) =>
-                          updateLanguage(index, "proficiency", e.target.value)
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      >
-                        <option value="">Select Proficiency</option>
-                        <option value="basic">Basic</option>
-                        <option value="conversational">Conversational</option>
-                        <option value="fluent">Fluent</option>
-                        <option value="native">Native/Bilingual</option>
-                      </select>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between gap-4 pt-8 border-t border-gray-200">
-              <button
-                onClick={handleStepBack}
-                className="flex items-center gap-2 px-6 py-3 text-primary font-semibold border border-primary rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-
-              <button
-                onClick={handleStepContinue}
-                className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary bg-primary text-white hover:bg-accent"
-              >
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // Render step 9: Availability
-  if (currentStep === 9) {
+  // Render step 3: Availability
+  if (currentStep === 3) {
     const availabilityOptions = [
       {
         id: "full-time",
@@ -1211,11 +522,11 @@ export default function ResumeImport({ onBack, onContinue }) {
                 <h2 className="text-lg font-semibold text-gray-900">
                   Create your profile
                 </h2>
-                <span className="text-lg text-gray-500 font-medium">9/10</span>
+                <span className="text-lg text-gray-500 font-medium">3/5</span>
               </div>
               <div
                 className="h-1 bg-primary rounded-full"
-                style={{ width: "90%" }}
+                style={{ width: "60%" }}
               ></div>
             </div>
 
@@ -1289,8 +600,8 @@ export default function ResumeImport({ onBack, onContinue }) {
     );
   }
 
-  // Render step 10: Profile Photo
-  if (currentStep === 10) {
+  // Render step 4: Profile Photo
+  if (currentStep === 4) {
     return (
       <div className="min-h-screen bg-white">
         <main className="px-6 py-8">
@@ -1300,7 +611,7 @@ export default function ResumeImport({ onBack, onContinue }) {
                 <h2 className="text-lg font-semibold text-gray-900">
                   Create your profile
                 </h2>
-                <span className="text-lg text-gray-500 font-medium">10/10</span>
+                <span className="text-lg text-gray-500 font-medium">4/5</span>
               </div>
               <div className="w-full h-1 bg-primary rounded-full"></div>
             </div>
@@ -1413,7 +724,7 @@ export default function ResumeImport({ onBack, onContinue }) {
               <h2 className="text-lg font-semibold text-gray-900">
                 Create your profile
               </h2>
-              <span className="text-lg text-gray-500 font-medium">1/10</span>
+              <span className="text-lg text-gray-500 font-medium">1/5</span>
             </div>
             <div className="w-16 h-1 bg-primary rounded-full"></div>
           </div>
