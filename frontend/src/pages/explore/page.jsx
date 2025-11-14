@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react"
-import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
-import { Search, Filter, Star, MapPin, Heart } from "lucide-react"
+import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Search, Filter, Star, MapPin, Heart } from "lucide-react";
 
 const SERVICES = [
   {
@@ -84,24 +84,39 @@ const SERVICES = [
     availability: "Available tomorrow",
     verified: true,
   },
-]
+];
 
-const CATEGORIES = ["All", "Cleaning", "Plumbing", "Electrical", "Painting", "Landscaping", "Carpentry", "HVAC"]
-const SORT_OPTIONS = ["Recommended", "Highest Rated", "Most Reviews", "Lowest Price", "Highest Price"]
+const CATEGORIES = [
+  "All",
+  "Cleaning",
+  "Plumbing",
+  "Electrical",
+  "Painting",
+  "Landscaping",
+  "Carpentry",
+  "HVAC",
+];
+const SORT_OPTIONS = [
+  "Recommended",
+  "Highest Rated",
+  "Most Reviews",
+  "Lowest Price",
+  "Highest Price",
+];
 
 export default function ExplorePage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All")
-  const [sortBy, setSortBy] = useState("Recommended")
-  const [showFilters, setShowFilters] = useState(false)
-  const [favorites, setFavorites] = useState([])
-  const [priceRange, setPriceRange] = useState([0, 300])
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("Recommended");
+  const [showFilters, setShowFilters] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 300]);
 
   const filteredServices = useMemo(() => {
-    let filtered = SERVICES
+    let filtered = SERVICES;
 
     if (selectedCategory !== "All") {
-      filtered = filtered.filter((s) => s.category === selectedCategory)
+      filtered = filtered.filter((s) => s.category === selectedCategory);
     }
 
     if (searchTerm) {
@@ -109,31 +124,35 @@ export default function ExplorePage() {
         (s) =>
           s.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           s.provider.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          s.category.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+          s.category.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
-    filtered = filtered.filter((s) => s.price >= priceRange[0] && s.price <= priceRange[1])
+    filtered = filtered.filter(
+      (s) => s.price >= priceRange[0] && s.price <= priceRange[1]
+    );
 
     if (sortBy === "Highest Rated") {
-      filtered.sort((a, b) => b.rating - a.rating)
+      filtered.sort((a, b) => b.rating - a.rating);
     } else if (sortBy === "Most Reviews") {
-      filtered.sort((a, b) => b.reviews - a.reviews)
+      filtered.sort((a, b) => b.reviews - a.reviews);
     } else if (sortBy === "Lowest Price") {
-      filtered.sort((a, b) => a.price - b.price)
+      filtered.sort((a, b) => a.price - b.price);
     } else if (sortBy === "Highest Price") {
-      filtered.sort((a, b) => b.price - a.price)
+      filtered.sort((a, b) => b.price - a.price);
     }
 
-    return filtered
-  }, [selectedCategory, searchTerm, sortBy, priceRange])
+    return filtered;
+  }, [selectedCategory, searchTerm, sortBy, priceRange]);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Search Section */}
       <div className="bg-gradient-to-r from-primary/10 to-accent/5 border-b border-border py-8 px-4">
         <div className="max-w-7xl mx-auto space-y-6">
-          <h1 className="text-4xl font-bold text-foreground">Find Services Near You</h1>
+          <h1 className="text-4xl font-bold text-foreground">
+            Find Services Near You
+          </h1>
 
           <div className="flex gap-3">
             <div className="flex-1 relative">
@@ -146,7 +165,11 @@ export default function ExplorePage() {
                 className="pl-12 h-12 bg-card border-border text-foreground"
               />
             </div>
-            <Button onClick={() => setShowFilters(!showFilters)} variant="outline" className="border-border">
+            <Button
+              onClick={() => setShowFilters(!showFilters)}
+              variant="outline"
+              className="border-border"
+            >
               <Filter size={20} />
               <span className="hidden sm:inline ml-2">Filters</span>
             </Button>
@@ -177,17 +200,26 @@ export default function ExplorePage() {
           <div className="mb-8 p-6 bg-card border border-border rounded-lg">
             <div className="space-y-6">
               <div>
-                <h3 className="font-semibold text-foreground mb-4">Price Range</h3>
+                <h3 className="font-semibold text-foreground mb-4">
+                  Price Range
+                </h3>
                 <div className="flex items-center gap-4">
                   <input
                     type="range"
                     min="0"
                     max="300"
                     value={priceRange[1]}
-                    onChange={(e) => setPriceRange([priceRange[0], Number.parseInt(e.target.value)])}
+                    onChange={(e) =>
+                      setPriceRange([
+                        priceRange[0],
+                        Number.parseInt(e.target.value),
+                      ])
+                    }
                     className="flex-1 h-2 bg-muted rounded-lg"
                   />
-                  <span className="text-foreground font-semibold">${priceRange[1]}</span>
+                  <span className="text-foreground font-semibold">
+                    ${priceRange[1]}
+                  </span>
                 </div>
               </div>
 
@@ -209,10 +241,10 @@ export default function ExplorePage() {
               <div className="flex gap-3">
                 <Button
                   onClick={() => {
-                    setSelectedCategory("All")
-                    setSearchTerm("")
-                    setPriceRange([0, 300])
-                    setSortBy("Recommended")
+                    setSelectedCategory("All");
+                    setSearchTerm("");
+                    setPriceRange([0, 300]);
+                    setSortBy("Recommended");
                   }}
                   variant="outline"
                   className="flex-1 border-border"
@@ -228,7 +260,8 @@ export default function ExplorePage() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-foreground">
-              {filteredServices.length} {filteredServices.length === 1 ? "Service" : "Services"} Found
+              {filteredServices.length}{" "}
+              {filteredServices.length === 1 ? "Service" : "Services"} Found
             </h2>
             {!showFilters && (
               <select
@@ -247,12 +280,14 @@ export default function ExplorePage() {
 
           {filteredServices.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg">No services found matching your criteria</p>
+              <p className="text-muted-foreground text-lg">
+                No services found matching your criteria
+              </p>
               <Button
                 onClick={() => {
-                  setSelectedCategory("All")
-                  setSearchTerm("")
-                  setPriceRange([0, 300])
+                  setSelectedCategory("All");
+                  setSearchTerm("");
+                  setPriceRange([0, 300]);
                 }}
                 className="mt-4 bg-primary text-primary-foreground hover:bg-accent"
               >
@@ -272,10 +307,12 @@ export default function ExplorePage() {
                       />
                       <button
                         onClick={(e) => {
-                          e.preventDefault()
+                          e.preventDefault();
                           setFavorites((prev) =>
-                            prev.includes(service.id) ? prev.filter((id) => id !== service.id) : [...prev, service.id],
-                          )
+                            prev.includes(service.id)
+                              ? prev.filter((id) => id !== service.id)
+                              : [...prev, service.id]
+                          );
                         }}
                         className="absolute top-3 right-3 p-2 bg-white/90 hover:bg-white rounded-full transition-colors"
                       >
@@ -296,14 +333,22 @@ export default function ExplorePage() {
                     </div>
 
                     <div className="p-4 space-y-3">
-                      <h3 className="font-semibold text-foreground line-clamp-2">{service.title}</h3>
+                      <h3 className="font-semibold text-foreground line-clamp-2">
+                        {service.title}
+                      </h3>
 
-                      <p className="text-sm text-muted-foreground">{service.provider}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {service.provider}
+                      </p>
 
                       <div className="flex items-center gap-1 text-sm">
                         <Star size={16} className="fill-accent text-accent" />
-                        <span className="font-semibold text-foreground">{service.rating}</span>
-                        <span className="text-muted-foreground">({service.reviews} reviews)</span>
+                        <span className="font-semibold text-foreground">
+                          {service.rating}
+                        </span>
+                        <span className="text-muted-foreground">
+                          ({service.reviews} reviews)
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -312,7 +357,9 @@ export default function ExplorePage() {
                       </div>
 
                       <div className="border-t border-border pt-3 flex justify-between items-center">
-                        <span className="font-bold text-primary text-lg">${service.price}</span>
+                        <span className="font-bold text-primary text-lg">
+                          ${service.price}
+                        </span>
                         <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded">
                           {service.availability}
                         </span>
@@ -326,5 +373,5 @@ export default function ExplorePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

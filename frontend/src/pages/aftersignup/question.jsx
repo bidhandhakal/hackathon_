@@ -1,15 +1,17 @@
-    "use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Questionnaire() {
-  const [currentStep, setCurrentStep] = useState(0)
+  const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({
     experience: null,
     goal: null,
     workPreference: [],
-  })
-  const [error, setError] = useState("")
+  });
+  const [error, setError] = useState("");
 
   const steps = [
     {
@@ -100,15 +102,15 @@ export default function Questionnaire() {
       key: "workPreference",
       allowSkip: true,
     },
-  ]
+  ];
 
-  const currentQuestion = steps[currentStep]
-  const currentAnswer = answers[currentQuestion.key]
+  const currentQuestion = steps[currentStep];
+  const currentAnswer = answers[currentQuestion.key];
 
   const handleSelect = (optionId) => {
     if (currentQuestion.type === "single") {
-      setAnswers({ ...answers, [currentQuestion.key]: optionId })
-      setError("")
+      setAnswers({ ...answers, [currentQuestion.key]: optionId });
+      setError("");
     } else {
       setAnswers({
         ...answers,
@@ -117,51 +119,55 @@ export default function Questionnaire() {
             ? currentAnswer.filter((id) => id !== optionId)
             : [...currentAnswer, optionId]
           : [optionId],
-      })
-      setError("")
+      });
+      setError("");
     }
-  }
+  };
 
   const handleNext = () => {
     if (currentQuestion.type === "single" && !currentAnswer) {
-      setError("Field selection required")
-      return
+      setError("Field selection required");
+      return;
     }
 
-    if (currentQuestion.type === "multiple" && (!Array.isArray(currentAnswer) || currentAnswer.length === 0)) {
-      setError("Field selection required")
-      return
+    if (
+      currentQuestion.type === "multiple" &&
+      (!Array.isArray(currentAnswer) || currentAnswer.length === 0)
+    ) {
+      setError("Field selection required");
+      return;
     }
 
-    setError("")
+    setError("");
 
     if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     } else {
-      console.log("Form completed with answers:", answers)
+      console.log("Form completed with answers:", answers);
+      navigate("/aftersignup/profilesetup");
     }
-  }
+  };
 
   const handleBack = () => {
     if (currentStep > 0) {
-      setCurrentStep(currentStep - 1)
-      setError("")
+      setCurrentStep(currentStep - 1);
+      setError("");
     }
-  }
+  };
 
   const handleSkip = () => {
-    setError("")
+    setError("");
     if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const isSelected = (optionId) => {
     if (currentQuestion.type === "single") {
-      return currentAnswer === optionId
+      return currentAnswer === optionId;
     }
-    return Array.isArray(currentAnswer) && currentAnswer.includes(optionId)
-  }
+    return Array.isArray(currentAnswer) && currentAnswer.includes(optionId);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-slate-100 flex items-center justify-center p-4 md:p-8">
@@ -181,18 +187,24 @@ export default function Questionnaire() {
 
         {/* Question Title and Description */}
         <div className="mb-12 animate-in fade-in-50 slide-in-from-bottom-3 duration-700">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 leading-tight">{currentQuestion.title}</h1>
-          <p className="text-base md:text-lg text-slate-600 leading-relaxed max-w-4xl">{currentQuestion.description}</p>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 leading-tight">
+            {currentQuestion.title}
+          </h1>
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed max-w-4xl">
+            {currentQuestion.description}
+          </p>
         </div>
 
         {/* Options Grid */}
         <div
           className={`grid gap-5 mb-10 ${
-            currentQuestion.type === "single" && currentQuestion.options.length === 3
+            currentQuestion.type === "single" &&
+            currentQuestion.options.length === 3
               ? "grid-cols-1 md:grid-cols-3"
-              : currentQuestion.type === "single" && currentQuestion.options.length === 4
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-                : "grid-cols-1 lg:grid-cols-2"
+              : currentQuestion.type === "single" &&
+                currentQuestion.options.length === 4
+              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+              : "grid-cols-1 lg:grid-cols-2"
           }`}
         >
           {currentQuestion.options.map((option, index) => (
@@ -200,11 +212,11 @@ export default function Questionnaire() {
               key={option.id}
               onClick={() => handleSelect(option.id)}
               className={`relative p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:scale-105 group animate-in fade-in-50 zoom-in-95 ${
-                isSelected(option.id) 
-                  ? "border-primary bg-primary/5 shadow-xl" 
+                isSelected(option.id)
+                  ? "border-primary bg-primary/5 shadow-xl"
                   : "border-slate-300 bg-white hover:border-primary/50 shadow-md hover:shadow-xl"
               }`}
-              style={{animationDelay: `${index * 100}ms`}}
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Icon/Emoji Display */}
               <div className="mb-5 h-24 w-24 flex items-center justify-center mx-auto bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl shadow-inner group-hover:from-primary/20 group-hover:to-accent/20 transition-all duration-300">
@@ -216,25 +228,34 @@ export default function Questionnaire() {
               {/* Selection Indicator */}
               <div
                 className={`absolute top-5 right-5 w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all ${
-                  isSelected(option.id) ? "border-primary bg-primary scale-110 shadow-md" : "border-slate-300 bg-white group-hover:border-primary/50"
+                  isSelected(option.id)
+                    ? "border-primary bg-primary scale-110 shadow-md"
+                    : "border-slate-300 bg-white group-hover:border-primary/50"
                 }`}
               >
                 {currentQuestion.type === "single" && isSelected(option.id) && (
                   <div className="w-3 h-3 rounded-full bg-white" />
                 )}
-                {currentQuestion.type === "multiple" && isSelected(option.id) && (
-                  <div className="text-white text-sm font-bold">✓</div>
-                )}
+                {currentQuestion.type === "multiple" &&
+                  isSelected(option.id) && (
+                    <div className="text-white text-sm font-bold">✓</div>
+                  )}
               </div>
 
               {/* Label */}
-              <h3 className={`font-bold mb-2 text-base md:text-lg text-center transition-colors ${
-                isSelected(option.id) ? "text-slate-900" : "text-slate-800"
-              }`}>{option.label}</h3>
+              <h3
+                className={`font-bold mb-2 text-base md:text-lg text-center transition-colors ${
+                  isSelected(option.id) ? "text-slate-900" : "text-slate-800"
+                }`}
+              >
+                {option.label}
+              </h3>
 
               {/* Description (for multiple choice) */}
               {option.description && (
-                <p className="text-sm md:text-base text-slate-600 leading-relaxed text-center">{option.description}</p>
+                <p className="text-sm md:text-base text-slate-600 leading-relaxed text-center">
+                  {option.description}
+                </p>
               )}
             </div>
           ))}
@@ -281,5 +302,5 @@ export default function Questionnaire() {
         </div>
       </div>
     </div>
-  )
+  );
 }
