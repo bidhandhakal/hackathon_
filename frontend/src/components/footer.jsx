@@ -3,13 +3,12 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  FacebookIcon,
-  TwitterIcon,
-  LinkedinIcon,
-  InstagramIcon,
-  YoutubeIcon,
-  MailIcon,
-} from "lucide-react";
+  FaFacebook,
+  FaLinkedin,
+  FaXTwitter,
+  FaYoutube,
+  FaInstagram,
+} from "react-icons/fa6";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,18 +24,18 @@ export default function Footer() {
       ref={footerRef}
       className="bg-[#1a1a1a] text-white w-full rounded-t-[48px] mt-16 min-h-[70vh] flex items-center"
     >
-      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-20">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8 md:py-12">
         {/* Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-16 mb-16">
           {/* For Clients */}
           <div className="space-y-5">
             <h3
               ref={(el) => (columnsRef.current[0] = el)}
-              className="font-normal text-base text-gray-400 mb-6"
+              className="font-normal text-lg text-gray-400 mb-6"
             >
               For Clients
             </h3>
-            <ul className="space-y-3.5 text-base">
+            <ul className="space-y-3.5 text-lg">
               <li ref={(el) => columnItemsRef.current.push(el)}>
                 <Link
                   to="/explore"
@@ -76,11 +75,11 @@ export default function Footer() {
           <div className="space-y-5">
             <h3
               ref={(el) => (columnsRef.current[1] = el)}
-              className="font-normal text-base text-gray-400 mb-6"
+              className="font-normal text-lg text-gray-400 mb-6"
             >
               For Talent
             </h3>
-            <ul className="space-y-3.5 text-base">
+            <ul className="space-y-3.5 text-lg">
               <li ref={(el) => columnItemsRef.current.push(el)}>
                 <Link
                   to="/become-service-provider"
@@ -120,11 +119,11 @@ export default function Footer() {
           <div className="space-y-5">
             <h3
               ref={(el) => (columnsRef.current[2] = el)}
-              className="font-normal text-base text-gray-400 mb-6"
+              className="font-normal text-lg text-gray-400 mb-6"
             >
               Resources
             </h3>
-            <ul className="space-y-3.5 text-base">
+            <ul className="space-y-3.5 text-lg">
               <li ref={(el) => columnItemsRef.current.push(el)}>
                 <Link
                   to="/explore"
@@ -156,11 +155,11 @@ export default function Footer() {
           <div className="space-y-5">
             <h3
               ref={(el) => (columnsRef.current[3] = el)}
-              className="font-normal text-base text-gray-400 mb-6"
+              className="font-normal text-lg text-gray-400 mb-6"
             >
               Company
             </h3>
-            <ul className="space-y-3.5 text-base">
+            <ul className="space-y-3.5 text-lg">
               <li ref={(el) => columnItemsRef.current.push(el)}>
                 <Link
                   to="/"
@@ -190,9 +189,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div ref={bottomRef} className="border-t border-gray-800 pt-10 mt-16">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            {/* Social Links */}
+        <div ref={bottomRef} className="mt-48">
+          {/* Social Links */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-7">
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-400 mr-4">Follow us</span>
               <a
@@ -200,75 +199,68 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors p-2"
+                className="text-white hover:text-gray-300 transition-colors p-2"
               >
-                <FacebookIcon className="w-5 h-5" />
+                <FaFacebook className="w-5 h-5" />
               </a>
               <a
                 ref={(el) => (socialLinksRef.current[1] = el)}
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors p-2"
+                className="text-white hover:text-gray-300 transition-colors p-2"
               >
-                <LinkedinIcon className="w-5 h-5" />
+                <FaLinkedin className="w-5 h-5" />
               </a>
               <a
                 ref={(el) => (socialLinksRef.current[2] = el)}
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors p-2"
+                className="text-white hover:text-gray-300 transition-colors p-2"
               >
-                <TwitterIcon className="w-5 h-5" />
+                <FaXTwitter className="w-5 h-5" />
               </a>
               <a
                 ref={(el) => (socialLinksRef.current[3] = el)}
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors p-2"
+                className="text-white hover:text-gray-300 transition-colors p-2"
               >
-                <YoutubeIcon className="w-5 h-5" />
+                <FaYoutube className="w-5 h-5" />
               </a>
               <a
                 ref={(el) => (socialLinksRef.current[4] = el)}
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors p-2"
+                className="text-white hover:text-gray-300 transition-colors p-2"
               >
-                <InstagramIcon className="w-5 h-5" />
-              </a>
-              <a
-                ref={(el) => (socialLinksRef.current[5] = el)}
-                href="mailto:contact@quickkaam.com"
-                className="text-gray-400 hover:text-white transition-colors p-2"
-              >
-                <MailIcon className="w-5 h-5" />
+                <FaInstagram className="w-5 h-5" />
               </a>
             </div>
           </div>
 
           {/* Copyright and Legal */}
-          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 mt-10 gap-4">
+          <div className="border-t border-gray-800 pt-10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
             <p>&copy; 2015 - 2025 QuickKaam® Global LLC</p>
             <div className="flex flex-wrap justify-center gap-6">
               <Link
                 to="/"
-                className="hover:text-gray-400 hover:underline transition-colors"
+                className="text-white hover:underline transition-colors"
               >
                 Terms of Service
               </Link>
               <Link
                 to="/"
-                className="hover:text-gray-400 hover:underline transition-colors"
+                className="text-white hover:underline transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
                 to="/dashboard/settings"
-                className="hover:text-gray-400 hover:underline transition-colors"
+                className="text-white hover:underline transition-colors"
               >
                 Settings
               </Link>
