@@ -1,119 +1,77 @@
-import { Link } from "react-router-dom"
-import { useState } from "react"
-import { Menu, X, Bell } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import NotificationCenter from "@/components/notification-center"
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
+
+const serviceCategories = {
+  'Browse Work': [
+    { category: 'Home & Repair Services', items: ['Electricians', 'Plumbers', 'Carpenters', 'House painters', 'Appliance repair technicians', 'Home maintenance workers'] },
+    { category: 'Personal & Daily Assistance', items: ['Cleaning helpers', 'Household helpers', 'Babysitters / caretakers', 'Delivery helpers', 'Errand helpers'] },
+    { category: 'Education & Tutoring', items: ['Home tutors', 'Language tutors', 'Skill coaches (music, dance, instruments)'] },
+    { category: 'Creative & Event Services', items: ['Photographers', 'Videographers', 'Event helpers', 'Decoration helpers'] },
+    { category: 'Outdoor & Labor Services', items: ['Garden/yard workers', 'Movers & loaders', 'Construction helpers', 'Handymen'] },
+    { category: 'Local Freelance Professionals', items: ['On-site designers', 'Computer/laptop maintenance'] },
+  ],
+  'Offer Work': [
+    { category: 'Get Started', items: ['Create Profile', 'Browse Available Jobs', 'Submit Proposals', 'Track Applications'] },
+  ],
+}
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState(null)
 
   return (
-    <>
-      <nav className="sticky top-0 z-50 w-full bg-background border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 font-bold text-2xl text-primary">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
-                Q
-              </div>
-              <span>QuickKaam</span>
-            </Link>
+    <nav className="sticky top-0 z-50 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <a href="/" className="text-2xl font-bold text-primary">
+            Quickkam
+          </a>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link to="/explore" className="text-foreground hover:text-primary transition-colors">
-                Find Services
-              </Link>
-              <Link to="/become-service-provider" className="text-foreground hover:text-primary transition-colors">
-                Become Provider
-              </Link>
-            </div>
-
-            {/* Right side actions */}
-            <div className="hidden md:flex items-center space-x-4">
-              <button
-                onClick={() => setIsNotificationOpen(true)}
-                className="relative p-2 text-foreground hover:text-primary transition-colors"
-              >
-                <Bell size={20} />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
-              </button>
-
-              <div className="relative">
-                <button
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg border border-border hover:bg-muted transition-colors"
-                >
-                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold">
-                    U
-                  </div>
+          {/* Center Menu */}
+          <div className="hidden md:flex items-center gap-8">
+            {['Browse Work', 'Offer Work', 'Why Quickkam', 'Pricing'].map((item) => (
+              <div key={item} className="relative group">
+                <button className="flex items-center gap-1 text-foreground hover:text-primary transition-colors">
+                  {item}
+                  {['Browse Work', 'Offer Work'].includes(item) && <ChevronDown size={16} />}
                 </button>
 
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg">
-                    <Link
-                      to="/dashboard/profile"
-                      className="block px-4 py-2 text-sm text-foreground hover:bg-muted first:rounded-t-lg"
-                    >
-                      My Profile
-                    </Link>
-                    <Link to="/dashboard/bookings" className="block px-4 py-2 text-sm text-foreground hover:bg-muted">
-                      My Bookings
-                    </Link>
-                    <Link to="/dashboard/messages" className="block px-4 py-2 text-sm text-foreground hover:bg-muted">
-                      Messages
-                    </Link>
-                    <button className="w-full text-left px-4 py-2 text-sm text-destructive hover:bg-muted last:rounded-b-lg">
-                      Logout
-                    </button>
+                {/* Dropdown */}
+                {['Browse Work', 'Offer Work'].includes(item) && serviceCategories[item] && (
+                  <div className="absolute left-0 mt-0 w-96 bg-card border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0 p-6">
+                    <div className="grid grid-cols-2 gap-6">
+                      {serviceCategories[item].map((section) => (
+                        <div key={section.category}>
+                          <h3 className="font-semibold text-foreground mb-3 text-sm">{section.category}</h3>
+                          <ul className="space-y-2">
+                            {section.items.map((subitem) => (
+                              <li key={subitem}>
+                                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                                  {subitem}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
-
-              <Link to="/auth/login">
-                <Button className="bg-primary text-primary-foreground hover:bg-accent">Sign In</Button>
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-lg border border-border hover:bg-muted transition-colors"
-            >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            ))}
           </div>
 
-          {/* Mobile Navigation */}
-          {isOpen && (
-            <div className="md:hidden pb-4 space-y-3">
-              <Link
-                to="/explore"
-                className="block px-4 py-2 text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Find Services
-              </Link>
-              <Link
-                to="/become-service-provider"
-                className="block px-4 py-2 text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Become Provider
-              </Link>
-              <Link to="/auth/login" className="block" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-primary text-primary-foreground">Sign In</Button>
-              </Link>
-            </div>
-          )}
+          {/* Right Auth Buttons */}
+          <div className="flex items-center gap-4">
+            <a href="#" className="text-foreground hover:text-primary transition-colors hidden sm:block">
+              Sign In
+            </a>
+            <a href="#" className="bg-primary text-primary-foreground px-6 py-2 rounded-full hover:opacity-90 transition-opacity">
+              Sign Up
+            </a>
+          </div>
         </div>
-      </nav>
-
-      {/* Notification Center */}
-      <NotificationCenter isOpen={isNotificationOpen} onClose={() => setIsNotificationOpen(false)} />
-    </>
+      </div>
+    </nav>
   )
 }
