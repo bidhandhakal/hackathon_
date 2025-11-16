@@ -37,15 +37,11 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     try {
       setIsLoading(true);
-      const response = await api.auth.getProfile();
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data.user);
-      } else {
-        console.error("Failed to fetch profile");
-      }
+      const data = await api.auth.getProfile();
+      setProfile(data.user);
     } catch (error) {
       console.error("Error fetching profile:", error);
+      alert(error.response?.data?.message || "Failed to fetch profile");
     } finally {
       setIsLoading(false);
     }
@@ -86,7 +82,11 @@ export default function ProfilePage() {
       }
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert(`An error occurred while updating your profile: ${error.message}`);
+      alert(
+        `An error occurred while updating your profile: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     } finally {
       setIsSaving(false);
     }
@@ -116,16 +116,13 @@ export default function ProfilePage() {
   const onPhotoUploadSuccess = async (res) => {
     console.log("Photo upload successful:", res);
     try {
-      const response = await api.auth.updateProfile({
+      const data = await api.auth.updateProfile({
         profilePhoto: res.url,
         profilePhotoFileId: res.fileId,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data.user);
-        alert("Profile photo updated successfully!");
-      }
+      setProfile(data.user);
+      alert("Profile photo updated successfully!");
     } catch (error) {
       console.error("Error updating profile photo:", error);
       alert("Photo uploaded but failed to save. Please try again.");

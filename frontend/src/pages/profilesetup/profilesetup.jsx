@@ -251,25 +251,22 @@ export default function ResumeImport({ onBack, onContinue }) {
         profilePhotoFileId: profilePhotoFileId,
       };
 
-      const response = await api.auth.updateProfile(profileData);
+      const data = await api.auth.updateProfile(profileData);
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Profile saved successfully:", data);
-        // Navigate to dashboard or call onContinue
-        if (onContinue) {
-          onContinue();
-        } else {
-          navigate("/dashboard");
-        }
+      console.log("Profile saved successfully:", data);
+      // Navigate to dashboard or call onContinue
+      if (onContinue) {
+        onContinue();
       } else {
-        const errorData = await response.json();
-        console.error("Failed to save profile:", errorData);
-        alert("Failed to save profile. Please try again.");
+        navigate("/dashboard");
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("An error occurred while saving your profile.");
+      alert(
+        error.response?.data?.message ||
+          error.message ||
+          "An error occurred while saving your profile."
+      );
     } finally {
       setIsSaving(false);
     }
@@ -278,15 +275,9 @@ export default function ResumeImport({ onBack, onContinue }) {
   // ImageKit authenticator
   const authenticator = async () => {
     try {
-      const response = await api.auth.getImageKitAuth();
-      if (response.ok) {
-        const data = await response.json();
-        const { token, expire, signature } = data;
-        return { token, expire, signature };
-      }
-      const errorText = await response.text();
-      console.error("Auth response error:", errorText);
-      throw new Error("Failed to authenticate with ImageKit");
+      const data = await api.auth.getImageKitAuth();
+      const { token, expire, signature } = data;
+      return { token, expire, signature };
     } catch (error) {
       console.error("ImageKit auth error:", error);
       alert("Authentication failed. Please make sure you're logged in.");

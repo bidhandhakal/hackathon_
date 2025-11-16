@@ -1,77 +1,84 @@
 // API configuration and utilities
+import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8000/api";
+
+// Create axios instance with default config
+const axiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Add request interceptor to include auth token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for better error handling
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Handle unauthorized - could redirect to login
+      localStorage.removeItem("token");
+      window.location.href = "/auth/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const api = {
   auth: {
     login: async (email, password) => {
-      const response = await fetch(`${API_BASE_URL}/auth/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
+      const response = await axiosInstance.post("/auth/user/login", {
+        email,
+        password,
       });
-      return response;
+      return response.data;
     },
 
     register: async (fullname, email, password) => {
-      const response = await fetch(`${API_BASE_URL}/auth/user/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ fullname, email, password }),
+      const response = await axiosInstance.post("/auth/user/register", {
+        fullname,
+        email,
+        password,
       });
-      return response;
+      return response.data;
     },
 
     logout: async () => {
-      const response = await fetch(`${API_BASE_URL}/auth/user/logout`, {
-        method: "GET",
-        credentials: "include",
-      });
-      return response;
+      const response = await axiosInstance.get("/auth/user/logout");
+      return response.data;
     },
 
     getProfile: async () => {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_BASE_URL}/auth/user/profile`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-      });
-      return response;
+      const response = await axiosInstance.get("/auth/user/profile");
+      return response.data;
     },
 
     updateProfile: async (profileData) => {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_BASE_URL}/auth/user/profile`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-        body: JSON.stringify(profileData),
-      });
-      return response;
+      const response = await axiosInstance.put(
+        "/auth/user/profile",
+        profileData
+      );
+      return response.data;
     },
 
     getImageKitAuth: async () => {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_BASE_URL}/auth/imagekit-auth`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-      });
-      return response;
+      const response = await axiosInstance.get("/auth/imagekit-auth");
+      return response.data;
     },
   },
 };
