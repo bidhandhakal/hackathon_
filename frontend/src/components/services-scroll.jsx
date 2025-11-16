@@ -20,8 +20,7 @@ const services = [
   { title: "Videographers", image: "/videographer-filming.jpg" },
   { title: "Designers", image: "/designer-at-work.jpg" },
   { title: "Delivery Helpers", image: "/delivery-person.jpg" },
-  { title: "Errand Helpers", image: "/placeholder.svg?height=200&width=200" },
-  { title: "Handymen", image: "/placeholder.svg?height=200&width=200" },
+
 ];
 
 export default function ServicesScroll() {
