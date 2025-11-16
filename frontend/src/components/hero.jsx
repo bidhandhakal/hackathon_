@@ -21,7 +21,7 @@ export default function Hero() {
     <section className="relative py-20 px-4 bg-gradient-to-b from-primary/5 to-background overflow-hidden">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-balance">
-          A location-based platform that connects Nepali clients with nearby skilled workers for fast, reliable physical services.
+          A platform linking Nepali clients with nearby skilled workers.
         </h1>
 
         {/* Search Bar */}
