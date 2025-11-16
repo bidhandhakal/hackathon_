@@ -5,7 +5,9 @@ const cors = require("cors");
 
 const app = express();
 app.use(cookieParser());
-app.use(express.json());
+// Increase payload size limit for JSON (10MB for ImageKit URLs and other data)
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(
   cors({
     origin: "http://localhost:5173",

@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
+import { IKContext, IKUpload } from "imagekitio-react";
 import {
   Upload,
   Linkedin,
@@ -25,7 +26,10 @@ export default function ResumeImport({ onBack, onContinue }) {
   const [bio, setBio] = useState("");
   const [availability, setAvailability] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
+  const [profilePhotoFileId, setProfilePhotoFileId] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
   const photoInputRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
@@ -238,18 +242,13 @@ export default function ResumeImport({ onBack, onContinue }) {
     try {
       setIsSaving(true);
 
-      // Convert photo to base64 if exists
-      let photoBase64 = "";
-      if (profilePhoto) {
-        photoBase64 = await convertToBase64(profilePhoto);
-      }
-
       const profileData = {
         category: selectedCategory,
         specialties: selectedSpecialties,
         bio: bio,
         availability: availability,
-        profilePhoto: photoBase64,
+        profilePhoto: profilePhotoUrl,
+        profilePhotoFileId: profilePhotoFileId,
       };
 
       const response = await api.auth.updateProfile(profileData);
@@ -274,6 +273,48 @@ export default function ResumeImport({ onBack, onContinue }) {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  // ImageKit authenticator
+  const authenticator = async () => {
+    try {
+      const response = await api.auth.getImageKitAuth();
+      if (response.ok) {
+        const data = await response.json();
+        const { token, expire, signature } = data;
+        return { token, expire, signature };
+      }
+      const errorText = await response.text();
+      console.error("Auth response error:", errorText);
+      throw new Error("Failed to authenticate with ImageKit");
+    } catch (error) {
+      console.error("ImageKit auth error:", error);
+      alert("Authentication failed. Please make sure you're logged in.");
+      throw error;
+    }
+  };
+
+  // ImageKit upload callbacks
+  const onUploadStart = () => {
+    console.log("Upload started...");
+    setIsUploading(true);
+  };
+
+  const onUploadSuccess = (res) => {
+    console.log("Upload successful:", res);
+    console.log("Image URL:", res.url);
+    console.log("File ID:", res.fileId);
+    setProfilePhotoUrl(res.url);
+    setProfilePhotoFileId(res.fileId);
+    setProfilePhoto(res);
+    setIsUploading(false);
+  };
+
+  const onUploadError = (err) => {
+    console.error("Upload error:", err);
+    console.error("Error details:", JSON.stringify(err, null, 2));
+    alert(`Image upload failed: ${err.message || "Unknown error"}`);
+    setIsUploading(false);
   };
 
   const convertToBase64 = (file) => {
@@ -686,57 +727,76 @@ export default function ResumeImport({ onBack, onContinue }) {
             </p>
 
             <div className="mb-16">
-              <div className="flex flex-col items-center justify-center p-12 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary transition-colors">
-                {profilePhoto ? (
-                  <div className="text-center">
-                    <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                      <img
-                        src={URL.createObjectURL(profilePhoto)}
-                        alt="Profile preview"
-                        className="w-full h-full object-cover"
-                      />
+              <IKContext
+                publicKey={import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY}
+                urlEndpoint={import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT}
+                authenticator={authenticator}
+              >
+                <div className="flex flex-col items-center justify-center p-12 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary transition-colors">
+                  {profilePhotoUrl ? (
+                    <div className="text-center">
+                      <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                        <img
+                          src={profilePhotoUrl}
+                          alt="Profile preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <p className="text-gray-700 font-semibold mb-2">
+                        Photo uploaded successfully!
+                      </p>
+                      <button
+                        onClick={() => {
+                          setProfilePhoto(null);
+                          setProfilePhotoUrl("");
+                          setProfilePhotoFileId("");
+                        }}
+                        className="text-red-500 hover:text-red-700 text-sm"
+                      >
+                        Remove photo
+                      </button>
                     </div>
-                    <p className="text-gray-700 font-semibold mb-2">
-                      {profilePhoto.name}
-                    </p>
-                    <button
-                      onClick={() => setProfilePhoto(null)}
-                      className="text-red-500 hover:text-red-700 text-sm"
-                    >
-                      Remove photo
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <div className="w-24 h-24 mb-4 rounded-full bg-gray-200 flex items-center justify-center">
-                      <Upload className="w-10 h-10 text-gray-400" />
-                    </div>
-                    <p className="text-gray-700 font-semibold mb-2">
-                      Upload a professional photo
-                    </p>
-                    <p className="text-sm text-gray-500 mb-4">
-                      JPG, PNG or GIF (max 5MB)
-                    </p>
-                    <input
-                      ref={photoInputRef}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setProfilePhoto(e.target.files[0]);
-                        }
-                      }}
-                    />
-                    <button
-                      onClick={() => photoInputRef.current?.click()}
-                      className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors font-semibold"
-                    >
-                      Choose Photo
-                    </button>
-                  </>
-                )}
-              </div>
+                  ) : (
+                    <>
+                      <div className="w-24 h-24 mb-4 rounded-full bg-gray-200 flex items-center justify-center">
+                        {isUploading ? (
+                          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+                        ) : (
+                          <Upload className="w-10 h-10 text-gray-400" />
+                        )}
+                      </div>
+                      <p className="text-gray-700 font-semibold mb-2">
+                        {isUploading
+                          ? "Uploading..."
+                          : "Upload a professional photo"}
+                      </p>
+                      <p className="text-sm text-gray-500 mb-4">
+                        JPG, PNG or GIF (max 10MB)
+                      </p>
+                      <div className="relative">
+                        <IKUpload
+                          fileName="profile-photo.jpg"
+                          folder="/user-profiles"
+                          tags={["profile", "user"]}
+                          onError={onUploadError}
+                          onSuccess={onUploadSuccess}
+                          onUploadStart={onUploadStart}
+                          style={{ display: "none" }}
+                          id="file-upload"
+                          useUniqueFileName={true}
+                          isPrivateFile={false}
+                        />
+                        <label
+                          htmlFor="file-upload"
+                          className="cursor-pointer inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors font-semibold disabled:opacity-50"
+                        >
+                          {isUploading ? "Uploading..." : "Choose Photo"}
+                        </label>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </IKContext>
 
               <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <h3 className="font-semibold text-gray-900 mb-2">

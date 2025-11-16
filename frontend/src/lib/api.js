@@ -61,6 +61,18 @@ export const api = {
       });
       return response;
     },
+
+    getImageKitAuth: async () => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_BASE_URL}/auth/imagekit-auth`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
+      });
+      return response;
+    },
   },
 };
 

@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Star, MapPin, Upload } from "lucide-react";
 import { api } from "@/lib/api";
+import { IKContext, IKUpload } from "imagekitio-react";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState({
@@ -17,6 +18,7 @@ export default function ProfilePage() {
     specialties: [],
     availability: "",
     profilePhoto: "",
+    profilePhotoFileId: "",
     rating: 0,
     reviews: 0,
     completedJobs: 0,
@@ -26,6 +28,7 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
   useEffect(() => {
     fetchProfile();
@@ -51,6 +54,14 @@ export default function ProfilePage() {
   const handleSave = async () => {
     try {
       setIsSaving(true);
+
+      console.log("Updating profile with data:", {
+        fullname: profile.fullname,
+        phone: profile.phone,
+        location: profile.location,
+        bio: profile.bio,
+      });
+
       const response = await api.auth.updateProfile({
         fullname: profile.fullname,
         phone: profile.phone,
@@ -58,21 +69,75 @@ export default function ProfilePage() {
         bio: profile.bio,
       });
 
+      console.log("Update response status:", response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log("Profile updated successfully:", data);
         setProfile(data.user);
         setIsEditing(false);
         alert("Profile updated successfully!");
       } else {
-        console.error("Failed to update profile");
-        alert("Failed to update profile. Please try again.");
+        const errorData = await response.json();
+        console.error("Failed to update profile:", errorData);
+        alert(
+          `Failed to update profile: ${errorData.message || "Unknown error"}`
+        );
       }
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("An error occurred while updating your profile.");
+      alert(`An error occurred while updating your profile: ${error.message}`);
     } finally {
       setIsSaving(false);
     }
+  };
+
+  // ImageKit authenticator
+  const authenticator = async () => {
+    try {
+      const response = await api.auth.getImageKitAuth();
+      if (response.ok) {
+        const data = await response.json();
+        const { token, expire, signature } = data;
+        return { token, expire, signature };
+      }
+      throw new Error("Failed to authenticate with ImageKit");
+    } catch (error) {
+      console.error("ImageKit auth error:", error);
+      throw error;
+    }
+  };
+
+  // ImageKit upload callbacks
+  const onPhotoUploadStart = () => {
+    setIsUploadingPhoto(true);
+  };
+
+  const onPhotoUploadSuccess = async (res) => {
+    console.log("Photo upload successful:", res);
+    try {
+      const response = await api.auth.updateProfile({
+        profilePhoto: res.url,
+        profilePhotoFileId: res.fileId,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data.user);
+        alert("Profile photo updated successfully!");
+      }
+    } catch (error) {
+      console.error("Error updating profile photo:", error);
+      alert("Photo uploaded but failed to save. Please try again.");
+    } finally {
+      setIsUploadingPhoto(false);
+    }
+  };
+
+  const onPhotoUploadError = (err) => {
+    console.error("Photo upload error:", err);
+    alert(`Photo upload failed: ${err.message || "Unknown error"}`);
+    setIsUploadingPhoto(false);
   };
 
   const getInitials = () => {
@@ -196,12 +261,49 @@ export default function ProfilePage() {
             <Label className="text-foreground font-semibold mb-4 block">
               Profile Photo
             </Label>
-            <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
-              <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-              <p className="text-sm text-muted-foreground">
-                Drag and drop or click to upload
-              </p>
-            </div>
+            <IKContext
+              publicKey={import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY}
+              urlEndpoint={import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT}
+              authenticator={authenticator}
+            >
+              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+                {isUploadingPhoto ? (
+                  <div className="flex flex-col items-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2"></div>
+                    <p className="text-sm text-muted-foreground">
+                      Uploading...
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {profile.profilePhoto
+                        ? "Change photo"
+                        : "Upload profile photo"}
+                    </p>
+                    <IKUpload
+                      fileName="profile-photo.jpg"
+                      folder="/user-profiles"
+                      tags={["profile", "user"]}
+                      onError={onPhotoUploadError}
+                      onSuccess={onPhotoUploadSuccess}
+                      onUploadStart={onPhotoUploadStart}
+                      style={{ display: "none" }}
+                      id="profile-photo-upload"
+                      useUniqueFileName={true}
+                      isPrivateFile={false}
+                    />
+                    <label
+                      htmlFor="profile-photo-upload"
+                      className="cursor-pointer inline-block px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-accent transition-colors text-sm"
+                    >
+                      Choose File
+                    </label>
+                  </>
+                )}
+              </div>
+            </IKContext>
           </Card>
         </div>
 

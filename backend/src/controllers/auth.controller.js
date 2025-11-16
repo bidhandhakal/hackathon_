@@ -86,6 +86,7 @@ async function getProfile(req, res) {
         specialties: req.user.specialties,
         availability: req.user.availability,
         profilePhoto: req.user.profilePhoto,
+        profilePhotoFileId: req.user.profilePhotoFileId,
         verified: req.user.verified,
         rating: req.user.rating,
         reviews: req.user.reviews,
@@ -110,6 +111,7 @@ async function updateProfile(req, res) {
       specialties,
       availability,
       profilePhoto,
+      profilePhotoFileId,
     } = req.body;
 
     const updateData = {};
@@ -121,6 +123,8 @@ async function updateProfile(req, res) {
     if (specialties !== undefined) updateData.specialties = specialties;
     if (availability !== undefined) updateData.availability = availability;
     if (profilePhoto !== undefined) updateData.profilePhoto = profilePhoto;
+    if (profilePhotoFileId !== undefined)
+      updateData.profilePhotoFileId = profilePhotoFileId;
 
     const updatedUser = await userModel.findByIdAndUpdate(
       req.user._id,
@@ -141,6 +145,7 @@ async function updateProfile(req, res) {
         specialties: updatedUser.specialties,
         availability: updatedUser.availability,
         profilePhoto: updatedUser.profilePhoto,
+        profilePhotoFileId: updatedUser.profilePhotoFileId,
         verified: updatedUser.verified,
         rating: updatedUser.rating,
         reviews: updatedUser.reviews,

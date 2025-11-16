@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    profilePhotoFileId: {
+      type: String,
+      default: "",
+    },
     verified: {
       type: Boolean,
       default: false,
