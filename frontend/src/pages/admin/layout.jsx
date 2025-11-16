@@ -1,18 +1,39 @@
-import { useState } from "react"
-import { Link, Outlet } from "react-router-dom"
-import { Menu, X, BarChart3, Users, AlertCircle, Settings, FileText, LogOut } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import {
+  Menu,
+  X,
+  BarChart3,
+  Users,
+  AlertCircle,
+  Settings,
+  FileText,
+  LogOut,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function AdminLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const adminLinks = [
     { href: "/admin", icon: <BarChart3 size={20} />, label: "Dashboard" },
-    { href: "/admin/services", icon: <FileText size={20} />, label: "Services" },
+    {
+      href: "/admin/services",
+      icon: <FileText size={20} />,
+      label: "Services",
+    },
     { href: "/admin/users", icon: <Users size={20} />, label: "Users" },
-    { href: "/admin/reports", icon: <AlertCircle size={20} />, label: "Reports" },
-    { href: "/admin/settings", icon: <Settings size={20} />, label: "Settings" },
-  ]
+    {
+      href: "/admin/reports",
+      icon: <AlertCircle size={20} />,
+      label: "Reports",
+    },
+    {
+      href: "/admin/settings",
+      icon: <Settings size={20} />,
+      label: "Settings",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -20,7 +41,10 @@ export default function AdminLayout() {
       <nav className="bg-muted text-foreground border-b border-border sticky top-0 z-50">
         <div className="px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-muted-foreground/10 rounded-lg">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-muted-foreground/10 rounded-lg"
+            >
               {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             <h1 className="text-xl font-bold">QuickKaam Admin</h1>
@@ -70,6 +94,5 @@ export default function AdminLayout() {
         </main>
       </div>
     </div>
-  )
+  );
 }
-

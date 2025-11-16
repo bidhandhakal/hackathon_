@@ -21,12 +21,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await api.auth.login(email, password);
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
+      const data = await api.auth.login(email, password);
 
       // Store user data and token in localStorage
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -35,7 +30,11 @@ export default function LoginPage() {
       // Redirect to aftersignup page
       navigate("/aftersignup");
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Invalid email or password"
+      );
     } finally {
       setIsLoading(false);
     }
