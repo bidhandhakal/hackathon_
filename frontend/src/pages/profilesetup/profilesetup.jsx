@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "@/lib/api";
 import {
   Upload,
   Linkedin,
@@ -14,6 +16,7 @@ import {
 } from "lucide-react";
 
 export default function ResumeImport({ onBack, onContinue }) {
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -22,6 +25,7 @@ export default function ResumeImport({ onBack, onContinue }) {
   const [bio, setBio] = useState("");
   const [availability, setAvailability] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef(null);
   const photoInputRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
@@ -215,15 +219,70 @@ export default function ResumeImport({ onBack, onContinue }) {
   };
 
   const handleStepContinue = () => {
-    if (currentStep === 1 && selectedCategory && selectedSpecialties.length >= 1) {
+    if (
+      currentStep === 1 &&
+      selectedCategory &&
+      selectedSpecialties.length >= 1
+    ) {
       setCurrentStep(2);
     } else if (currentStep === 2 && bio.length >= 50) {
       setCurrentStep(3);
     } else if (currentStep === 3 && availability) {
       setCurrentStep(4);
     } else if (currentStep === 4) {
-      onContinue?.();
+      handleSaveProfile();
     }
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      setIsSaving(true);
+
+      // Convert photo to base64 if exists
+      let photoBase64 = "";
+      if (profilePhoto) {
+        photoBase64 = await convertToBase64(profilePhoto);
+      }
+
+      const profileData = {
+        category: selectedCategory,
+        specialties: selectedSpecialties,
+        bio: bio,
+        availability: availability,
+        profilePhoto: photoBase64,
+      };
+
+      const response = await api.auth.updateProfile(profileData);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Profile saved successfully:", data);
+        // Navigate to dashboard or call onContinue
+        if (onContinue) {
+          onContinue();
+        } else {
+          navigate("/dashboard");
+        }
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save profile:", errorData);
+        alert("Failed to save profile. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      alert("An error occurred while saving your profile.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
   const handleStepBack = () => {
@@ -309,7 +368,7 @@ export default function ResumeImport({ onBack, onContinue }) {
 
               {/* Right Side - Specialty Dropdown (appears on hover) */}
               <div className="relative">
-                <div 
+                <div
                   className="sticky top-8"
                   onMouseEnter={handleSpecialtyPanelEnter}
                   onMouseLeave={handleSpecialtyPanelLeave}
@@ -363,10 +422,12 @@ export default function ResumeImport({ onBack, onContinue }) {
                       </p>
                     </div>
                   )}
-                  
+
                   {selectedSpecialties.length > 0 && (
                     <div className="mt-4 p-4 bg-white rounded-lg border-2 border-gray-200">
-                      <h3 className="font-semibold text-gray-900 mb-2">Selected Specialties:</h3>
+                      <h3 className="font-semibold text-gray-900 mb-2">
+                        Selected Specialties:
+                      </h3>
                       <div className="flex flex-wrap gap-2">
                         {selectedSpecialties.map((specialty, index) => (
                           <span
@@ -701,9 +762,10 @@ export default function ResumeImport({ onBack, onContinue }) {
 
               <button
                 onClick={handleStepContinue}
-                className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary bg-primary text-white hover:bg-accent"
+                disabled={isSaving}
+                className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary bg-primary text-white hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Complete Profile
+                {isSaving ? "Saving..." : "Complete Profile"}
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
