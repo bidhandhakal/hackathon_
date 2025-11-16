@@ -11,7 +11,6 @@ export default function ProfileCarousel() {
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Sample profile data - 4 top-rated professionals
   const profiles = [
     {
       id: 1,
@@ -63,22 +62,24 @@ export default function ProfileCarousel() {
     },
   ];
 
-  // Simulate fetching the name from the backend
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUserName = () => {
       try {
-        // Simulate backend request, e.g. an API call
-        const response = await fetch("/api/get-username"); // Replace with your actual API endpoint
-        if (response.ok) {
-          const data = await response.json();
-          setUserName(data.name); // Assuming the backend returns a { name: string } object
+        const userStr = localStorage.getItem("user");
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          const firstName = user.fullname
+            ? user.fullname.split(" ")[0]
+            : "User";
+          setUserName(firstName);
         } else {
-          setUserName("User"); // Fallback if backend fails
+          setUserName("User");
         }
       } catch (error) {
-        setUserName("User"); // Fallback if an error occurs
+        console.error("Error fetching user name:", error);
+        setUserName("User");
       } finally {
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
       }
     };
 
