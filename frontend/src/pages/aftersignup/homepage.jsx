@@ -97,93 +97,92 @@ export default function ProfileCarousel() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-6 md:p-12 max-w-7xl mx-auto items-center">
+      <div className="min-h-screen flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-8 p-4 md:p-6 lg:p-8 max-w-7xl mx-auto lg:items-center">
         {/* Left Side - Welcome Section */}
-        <div className="flex flex-col justify-center space-y-6 animate-in fade-in-50 slide-in-from-left-5 duration-700">
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+        <div className="flex flex-col justify-center space-y-3 lg:space-y-6 py-8 lg:py-0 animate-in fade-in-50 slide-in-from-left-5 duration-700">
+          <div className="space-y-2 lg:space-y-4">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight">
               Hey <span className="text-primary">{displayName}</span>. Ready for
               your next big opportunity?
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
+            <p className="text-sm md:text-base lg:text-lg text-slate-600 leading-relaxed">
               Connect with top-rated professionals and explore endless
               possibilities.
             </p>
           </div>
 
           {/* Action Items */}
-          <div className="space-y-4">
-            {/* Same Action Items */}
+          <div className="space-y-3 lg:space-y-4">
             <div
-              className="flex items-start gap-4 p-5 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border border-slate-100 animate-in fade-in-50 slide-in-from-left-5"
+              className="flex items-start gap-3 p-3 lg:p-5 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border border-slate-100 animate-in fade-in-50 slide-in-from-left-5"
               style={{ animationDelay: "200ms" }}
             >
               <div className="flex-shrink-0 mt-1">
-                <div className="flex items-center justify-center h-8 w-8 rounded-md bg-green-100">
-                  <span className="text-green-600 font-bold">✓</span>
+                <div className="flex items-center justify-center h-7 w-7 lg:h-8 lg:w-8 rounded-md bg-green-100">
+                  <span className="text-green-600 font-bold text-sm">✓</span>
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900">
+                <h3 className="font-semibold text-slate-900 text-sm lg:text-base">
                   Answer a few questions
                 </h3>
-                <p className="text-sm text-slate-600">
+                <p className="text-xs lg:text-sm text-slate-600">
                   Start building your professional profile
                 </p>
               </div>
             </div>
 
             <div
-              className="flex items-start gap-4 p-5 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border border-slate-100 animate-in fade-in-50 slide-in-from-left-5"
+              className="flex items-start gap-3 p-3 lg:p-5 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border border-slate-100 animate-in fade-in-50 slide-in-from-left-5"
               style={{ animationDelay: "300ms" }}
             >
               <div className="flex-shrink-0 mt-1">
-                <div className="flex items-center justify-center h-8 w-8 rounded-md bg-blue-100">
-                  <Briefcase className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center justify-center h-7 w-7 lg:h-8 lg:w-8 rounded-md bg-blue-100">
+                  <Briefcase className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600" />
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900">
+                <h3 className="font-semibold text-slate-900 text-sm lg:text-base">
                   Discover opportunities
                 </h3>
-                <p className="text-sm text-slate-600">
+                <p className="text-xs lg:text-sm text-slate-600">
                   Browse and apply for exciting projects
                 </p>
               </div>
             </div>
 
             <div
-              className="flex items-start gap-4 p-5 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border border-slate-100 animate-in fade-in-50 slide-in-from-left-5"
+              className="flex items-start gap-3 p-3 lg:p-5 rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border border-slate-100 animate-in fade-in-50 slide-in-from-left-5"
               style={{ animationDelay: "400ms" }}
             >
               <div className="flex-shrink-0 mt-1">
-                <div className="flex items-center justify-center h-8 w-8 rounded-md bg-amber-100">
-                  <Star className="w-5 h-5 text-amber-600" />
+                <div className="flex items-center justify-center h-7 w-7 lg:h-8 lg:w-8 rounded-md bg-amber-100">
+                  <Star className="w-4 h-4 lg:w-5 lg:h-5 text-amber-600" />
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900">
+                <h3 className="font-semibold text-slate-900 text-sm lg:text-base">
                   Build your reputation
                 </h3>
-                <p className="text-sm text-slate-600">
+                <p className="text-xs lg:text-sm text-slate-600">
                   Get paid safely and grow your business
                 </p>
               </div>
             </div>
           </div>
 
-          {/* New Section: Get Started Button and Text */}
+          {/* Desktop Get Started Button */}
           <div
-            className="flex flex-col items-start space-y-4 pt-4 animate-in fade-in-50 slide-in-from-left-5"
+            className="hidden md:flex flex-col items-start space-y-3 lg:space-y-4 pt-2 lg:pt-4 animate-in fade-in-50 slide-in-from-left-5"
             style={{ animationDelay: "500ms" }}
           >
-            <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+            <p className="text-xs lg:text-sm text-slate-600 leading-relaxed">
               It only takes 5-10 minutes and you can edit it later. We'll save
               as you go.
             </p>
             <button
               onClick={() => navigate("/aftersignup/questions")}
-              className="px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 font-semibold text-base"
+              className="px-6 py-3 lg:px-8 lg:py-4 bg-gradient-to-r from-primary to-accent text-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 font-semibold text-sm lg:text-base"
             >
               Get Started
             </button>
@@ -191,14 +190,14 @@ export default function ProfileCarousel() {
         </div>
 
         {/* Right Side - Profile Carousel */}
-        <div className="flex flex-col justify-center animate-in fade-in-50 slide-in-from-right-5 duration-700">
+        <div className="flex flex-col justify-center py-8 lg:py-0 animate-in fade-in-50 slide-in-from-right-5 duration-700">
           <div className="relative">
             {/* Profile Card */}
-            <div className="bg-white rounded-2xl shadow-2xl p-8 transition-all duration-500 border border-slate-100 hover:shadow-3xl">
-              <div className="flex flex-col items-center text-center space-y-6">
+            <div className="bg-white rounded-2xl shadow-2xl p-6 lg:p-8 transition-all duration-500 border border-slate-100 hover:shadow-3xl">
+              <div className="flex flex-col items-center text-center space-y-4 lg:space-y-6">
                 {/* Profile Image with Badge */}
                 <div className="relative">
-                  <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-green-100 shadow-lg">
+                  <div className="relative w-32 h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden border-4 border-green-100 shadow-lg">
                     <img
                       src={profiles[currentIndex].image}
                       alt={profiles[currentIndex].name}
@@ -213,25 +212,25 @@ export default function ProfileCarousel() {
                     />
                   </div>
                   {profiles[currentIndex].isTopRated && (
-                    <div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-green-500 to-green-600 rounded-full p-2.5 shadow-xl animate-in zoom-in-50 duration-500">
-                      <Star className="w-5 h-5 text-white fill-white" />
+                    <div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-green-500 to-green-600 rounded-full p-2 lg:p-2.5 shadow-xl animate-in zoom-in-50 duration-500">
+                      <Star className="w-4 h-4 lg:w-5 lg:h-5 text-white fill-white" />
                     </div>
                   )}
                 </div>
 
                 {/* Profile Info */}
-                <div className="space-y-2">
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                <div className="space-y-1 lg:space-y-2">
+                  <h2 className="text-xl lg:text-2xl md:text-3xl font-bold text-slate-900">
                     {profiles[currentIndex].name}
                   </h2>
-                  <p className="text-slate-600 font-medium text-base md:text-lg">
+                  <p className="text-slate-600 font-medium text-sm lg:text-base md:text-lg">
                     {profiles[currentIndex].role}
                   </p>
 
                   {/* Rating and Stats */}
-                  <div className="flex items-center justify-center gap-6 text-sm md:text-base pt-2">
-                    <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-full">
-                      <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                  <div className="flex items-center justify-center gap-4 lg:gap-6 text-xs lg:text-sm md:text-base pt-2">
+                    <div className="flex items-center gap-1 lg:gap-1.5 bg-amber-50 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full">
+                      <Star className="w-3 h-3 lg:w-4 lg:h-4 text-amber-500 fill-amber-500" />
                       <span className="font-semibold text-slate-900">
                         {profiles[currentIndex].rating}
                       </span>
@@ -246,8 +245,8 @@ export default function ProfileCarousel() {
                 </div>
 
                 {/* Testimonial */}
-                <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-primary">
-                  <p className="text-slate-700 italic leading-relaxed text-base">
+                <div className="bg-slate-50 p-4 lg:p-6 rounded-xl border-l-4 border-primary">
+                  <p className="text-slate-700 italic leading-relaxed text-sm lg:text-base">
                     {profiles[currentIndex].testimonial}
                   </p>
                 </div>
@@ -257,36 +256,49 @@ export default function ProfileCarousel() {
             {/* Navigation Arrows */}
             <button
               onClick={handlePrevious}
-              className="absolute -left-6 top-1/2 -translate-y-1/2 lg:-left-16 bg-white hover:bg-slate-50 text-slate-700 rounded-full p-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-slate-200"
+              className="absolute -left-4 lg:-left-6 xl:-left-16 top-1/2 -translate-y-1/2 bg-white hover:bg-slate-50 text-slate-700 rounded-full p-2 lg:p-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-slate-200"
               aria-label="Previous profile"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
             </button>
 
             <button
               onClick={handleNext}
-              className="absolute -right-6 top-1/2 -translate-y-1/2 lg:-right-16 bg-white hover:bg-slate-50 text-slate-700 rounded-full p-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-slate-200"
+              className="absolute -right-4 lg:-right-6 xl:-right-16 top-1/2 -translate-y-1/2 bg-white hover:bg-slate-50 text-slate-700 rounded-full p-2 lg:p-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-slate-200"
               aria-label="Next profile"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
             </button>
           </div>
 
           {/* Carousel Indicators */}
-          <div className="flex items-center justify-center gap-2 mt-8">
+          <div className="flex items-center justify-center gap-2 mt-6 lg:mt-8">
             {profiles.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`h-2.5 rounded-full transition-all duration-300 shadow-sm ${
+                className={`h-2 lg:h-2.5 rounded-full transition-all duration-300 shadow-sm ${
                   index === currentIndex
-                    ? "bg-gradient-to-r from-primary to-accent w-10"
-                    : "bg-slate-300 w-2.5 hover:bg-slate-400 hover:w-4"
+                    ? "bg-gradient-to-r from-primary to-accent w-8 lg:w-10"
+                    : "bg-slate-300 w-2 lg:w-2.5 hover:bg-slate-400 hover:w-3 lg:hover:w-4"
                 }`}
                 aria-label={`Go to profile ${index + 1}`}
               />
             ))}
           </div>
+        </div>
+
+        {/* Mobile Get Started Button - At Bottom */}
+        <div className="md:hidden flex flex-col items-center space-y-3 pb-8 animate-in fade-in-50 slide-in-from-bottom-5">
+          <p className="text-xs text-slate-600 leading-relaxed text-center px-4">
+            It only takes 5-10 minutes and you can edit it later. We'll save as you go.
+          </p>
+          <button
+            onClick={() => navigate("/aftersignup/questions")}
+            className="w-full max-w-xs px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 font-semibold text-sm"
+          >
+            Get Started
+          </button>
         </div>
       </div>
     </div>

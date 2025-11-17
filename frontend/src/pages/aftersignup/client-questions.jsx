@@ -3,103 +3,191 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Questionnaire() {
+export default function ClientQuestionnaire() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({
-    experience: null,
-    goal: null,
-    workPreference: [],
+    hiringExperience: null,
+    projectSize: null,
+    hiringGoal: null,
+    projectType: [],
   });
   const [error, setError] = useState("");
 
   const steps = [
     {
-      title: "A few quick questions: first, have you freelanced before?",
+      title: "First, have you hired or managed freelancers before?",
       description:
-        "This lets us know how much help to give you along the way. We won't share your answer with anyone else, including potential clients.",
+        "This helps us understand how much guidance to provide. We won't share your answer with freelancers.",
       type: "single",
       options: [
         {
-          id: "brand-new",
-          label: "I am brand new to this",
-          icon: "🎓",
-          emoji: "student",
+          id: "first-time",
+          label: "I'm new to hiring",
+          icon: "🎯",
+          emoji: "target",
         },
         {
           id: "some-experience",
           label: "I have some experience",
           icon: "💼",
-          emoji: "professional",
+          emoji: "briefcase",
         },
         {
-          id: "expert",
-          label: "I am an expert",
+          id: "experienced",
+          label: "I'm experienced at hiring",
           icon: "⭐",
-          emoji: "expert",
+          emoji: "star",
         },
       ],
-      key: "experience",
+      key: "hiringExperience",
       allowSkip: true,
     },
     {
-      title: "Got it. What's your biggest goal for freelancing?",
+      title: "What kind of work are you looking to get done?",
       description:
-        "Different people come to Upwork for various reasons. We want to highlight the opportunities that fit your goals best while still showing you all the possibilities.",
-      type: "single",
-      options: [
-        {
-          id: "main-income",
-          label: "To earn my main income",
-          icon: "💰",
-          emoji: "money",
-        },
-        {
-          id: "side-income",
-          label: "To make money on the side",
-          icon: "💵",
-          emoji: "cash",
-        },
-        {
-          id: "experience",
-          label: "To get experience, for a full-time job",
-          icon: "🏆",
-          emoji: "trophy",
-        },
-        {
-          id: "no-goal",
-          label: "I don't have a goal in mind yet",
-          icon: "🤔",
-          emoji: "thinking",
-        },
-      ],
-      key: "goal",
-      allowSkip: true,
-    },
-    {
-      title: "And how would you like to work?",
-      description:
-        "Everybody works in different ways, so we have different ways of helping you win work. You can select multiple preferences now and can always change it later!",
+        "Select all that apply. This helps us recommend the right freelancers for your needs.",
       type: "multiple",
       options: [
         {
-          id: "find-opportunities",
-          label: "I'd like to find opportunities myself",
-          description:
-            "Clients post jobs on our Talent Marketplace™: you can browse and bid for them, or get invited by a client.",
-          icon: "🔍",
-          emoji: "search",
+          id: "painting",
+          label: "Painting",
+          icon: "🎨",
+          emoji: "art",
         },
         {
-          id: "package-work",
-          label: "I'd like to package up my work for clients to buy",
-          description:
-            "Define your service with prices and timelines: we'll list it in our Project Catalog™ for clients to buy right away.",
+          id: "carpentry",
+          label: "Carpentry",
+          icon: "🔨",
+          emoji: "hammer",
+        },
+        {
+          id: "plumbing",
+          label: "Plumbing",
+          icon: "🔧",
+          emoji: "wrench",
+        },
+        {
+          id: "electrical",
+          label: "Electrical",
+          icon: "⚡",
+          emoji: "lightning",
+        },
+        {
+          id: "cleaning",
+          label: "Cleaning",
+          icon: "🧹",
+          emoji: "broom",
+        },
+        {
+          id: "hvac",
+          label: "HVAC",
+          icon: "❄️",
+          emoji: "snowflake",
+        },
+        {
+          id: "landscaping",
+          label: "Landscaping & Gardening",
+          icon: "🌿",
+          emoji: "plant",
+        },
+        {
+          id: "roofing",
+          label: "Roofing",
+          icon: "🏠",
+          emoji: "house",
+        },
+        {
+          id: "masonry",
+          label: "Masonry & Concrete",
+          icon: "🧱",
+          emoji: "brick",
+        },
+        {
+          id: "flooring",
+          label: "Flooring",
+          icon: "📐",
+          emoji: "ruler",
+        },
+        {
+          id: "renovation",
+          label: "Home Renovation",
+          icon: "🏗️",
+          emoji: "construction",
+        },
+        {
+          id: "moving",
+          label: "Moving & Hauling",
+          icon: "🚚",
+          emoji: "truck",
+        },
+      ],
+      key: "projectType",
+      allowSkip: true,
+    },
+    {
+      title: "What's the size of your project?",
+      description:
+        "This helps us match you with freelancers who are the best fit for your project scope.",
+      type: "single",
+      options: [
+        {
+          id: "small",
+          label: "Small",
+          description: "Quick and straightforward tasks",
+          icon: "📋",
+          emoji: "clipboard",
+        },
+        {
+          id: "medium",
+          label: "Medium",
+          description: "Well-defined projects with clear scope",
           icon: "📦",
           emoji: "package",
         },
+        {
+          id: "large",
+          label: "Large",
+          description: "Longer-term or complex initiatives",
+          icon: "🏢",
+          emoji: "building",
+        },
       ],
-      key: "workPreference",
+      key: "projectSize",
+      allowSkip: true,
+    },
+    {
+      title: "What's your goal for hiring?",
+      description:
+        "Understanding your objectives helps us provide better recommendations and support throughout your hiring journey.",
+      type: "single",
+      options: [
+        {
+          id: "fill-skill-gap",
+          label: "Fill a skill gap on my team",
+          icon: "🎯",
+          emoji: "target",
+        },
+        {
+          id: "supplement-team",
+          label: "Supplement my team's bandwidth",
+          icon: "⚡",
+          emoji: "lightning",
+        },
+        {
+          id: "build-team",
+          label: "Build a team for a new initiative",
+          icon: "👥",
+          emoji: "people",
+        },
+        {
+          id: "one-time-project",
+          label: "Complete a one-time project",
+          icon: "✅",
+          emoji: "check",
+        },
+      ],
+      key: "hiringGoal",
       allowSkip: true,
     },
   ];
@@ -134,7 +222,7 @@ export default function Questionnaire() {
       currentQuestion.type === "multiple" &&
       (!Array.isArray(currentAnswer) || currentAnswer.length === 0)
     ) {
-      setError("Field selection required");
+      setError("Please select at least one option");
       return;
     }
 
@@ -143,8 +231,9 @@ export default function Questionnaire() {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      console.log("Form completed with answers:", answers);
-      navigate("/aftersignup/profilesetup");
+      console.log("Client form completed with answers:", answers);
+      // Navigate to client profile setup
+      navigate("/aftersignup/client-profile-setup");
     }
   };
 
@@ -153,8 +242,8 @@ export default function Questionnaire() {
       setCurrentStep(currentStep - 1);
       setError("");
     } else {
-      // If on first step, go back to homepage
-      navigate("/aftersignup/homepage");
+      // If on first step, go back to user type selection
+      navigate("/aftersignup/usertype");
     }
   };
 
@@ -164,8 +253,8 @@ export default function Questionnaire() {
       setCurrentStep(currentStep + 1);
     } else {
       // If on last step and skipping, go to profile setup
-      console.log("Form skipped with answers:", answers);
-      navigate("/aftersignup/profilesetup");
+      console.log("Client form skipped with answers:", answers);
+      navigate("/aftersignup/client-profile-setup");
     }
   };
 
@@ -211,8 +300,11 @@ export default function Questionnaire() {
                 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
                 : currentQuestion.type === "single" &&
                   currentQuestion.options.length === 4
-                ? "grid-cols-2 lg:grid-cols-4"
-                : "grid-cols-1 lg:grid-cols-2"
+                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"
+                : currentQuestion.type === "multiple" &&
+                  currentQuestion.options.length === 12
+                ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
             }`}
           >
             {currentQuestion.options.map((option, index) => (
@@ -259,7 +351,7 @@ export default function Questionnaire() {
                   {option.label}
                 </h3>
 
-                {/* Description (for multiple choice) */}
+                {/* Description (for options with descriptions) */}
                 {option.description && (
                   <p className="text-xs lg:text-sm text-slate-600 leading-snug text-center">
                     {option.description}
@@ -300,13 +392,11 @@ export default function Questionnaire() {
               onClick={handleNext}
               className="px-5 py-2 lg:px-6 lg:py-2.5 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white rounded-lg lg:rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] text-xs lg:text-sm"
             >
-              {currentStep === steps.length - 1 ? "Create Profile →" : "Next →"}
+              {currentStep === steps.length - 1 ? "Start Hiring →" : "Next →"}
             </button>
           </div>
         </div>
       </div>
-
-      {/* Custom scrollbar styles removed as no longer needed */}
     </div>
   );
 }

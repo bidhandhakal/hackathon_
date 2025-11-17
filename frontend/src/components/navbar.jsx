@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
 const serviceCategories = {
@@ -70,6 +71,7 @@ const serviceCategories = {
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <nav className="sticky top-0 z-50 bg-background border-b border-border">
@@ -125,19 +127,19 @@ export default function Navbar() {
           </div>
 
           {/* Right Auth Buttons */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#"
-              className="text-foreground hover:text-primary transition-colors hidden sm:block"
+          <div className="flex items-center gap-2 sm:gap-4">
+            <button
+              onClick={() => navigate("/auth/login")}
+              className="text-foreground hover:text-primary transition-colors text-sm sm:text-base"
             >
               Sign In
-            </a>
-            <a
-              href="#"
-              className="bg-primary text-primary-foreground px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
+            </button>
+            <button
+              onClick={() => navigate("/auth/signup")}
+              className="bg-primary text-primary-foreground px-4 sm:px-6 py-2 rounded-full hover:opacity-90 transition-opacity text-sm sm:text-base"
             >
               Sign Up
-            </a>
+            </button>
           </div>
         </div>
       </div>

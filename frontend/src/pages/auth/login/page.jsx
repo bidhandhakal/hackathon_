@@ -27,8 +27,8 @@ export default function LoginPage() {
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
 
-      // Redirect to aftersignup page
-      navigate("/aftersignup");
+      // Redirect to user type selection page
+      navigate("/aftersignup/usertype");
     } catch (err) {
       setError(
         err.response?.data?.message ||

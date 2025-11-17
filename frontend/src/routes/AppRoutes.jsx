@@ -27,7 +27,10 @@ import DashboardMessagesPage from "@/pages/dashboard/messages/page";
 import DashboardSettingsPage from "@/pages/dashboard/settings/page";
 import Homepage from "@/pages/aftersignup/homepage";
 import FirstQuestionPage from "@/pages/aftersignup/question";
+import ClientQuestionnaire from "@/pages/aftersignup/client-questions";
+import ClientProfileSetup from "@/pages/aftersignup/client-profile-setup";
 import Profilesetup from "@/pages/profilesetup/profilesetup";
+import UserTypeSelection from "@/pages/aftersignup/usertype";
 
 // Admin Pages
 import AdminPage from "@/pages/admin/page";
@@ -50,8 +53,11 @@ const AppRoutes = () => {
       </Route>
 
       {/* After Signup Route (No Layout) */}
+      <Route path="/aftersignup/usertype" element={<UserTypeSelection />} />
       <Route path="/aftersignup" element={<Homepage />} />
       <Route path="/aftersignup/questions" element={<FirstQuestionPage />} />
+      <Route path="/aftersignup/client-questions" element={<ClientQuestionnaire />} />
+      <Route path="/aftersignup/client-profile-setup" element={<ClientProfileSetup />} />
       <Route path="/aftersignup/profilesetup" element={<Profilesetup />} />
 
     
