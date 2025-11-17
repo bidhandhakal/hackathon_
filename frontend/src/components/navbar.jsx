@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 font-[latina]">
-      <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-16 lg:h-14">
           <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
             <Link to="/" className="flex items-center gap-2">
@@ -285,9 +285,9 @@ const Navbar = () => {
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-7 h-7" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-7 h-7" />
               )}
             </button>
           </div>
