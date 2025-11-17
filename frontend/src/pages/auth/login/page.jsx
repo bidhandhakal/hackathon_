@@ -23,11 +23,9 @@ export default function LoginPage() {
     try {
       const data = await api.auth.login(email, password);
 
-      // Store user data and token in localStorage
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
 
-      // Redirect to aftersignup page
       navigate("/aftersignup");
     } catch (err) {
       setError(
