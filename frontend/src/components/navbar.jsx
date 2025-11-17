@@ -1,146 +1,157 @@
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ChevronDown } from 'lucide-react'
 
-const serviceCategories = {
-  "Browse Work": [
-    {
-      category: "Home & Repair Services",
-      items: [
-        "Electricians",
-        "Plumbers",
-        "Carpenters",
-        "House painters",
-        "Appliance repair technicians",
-        "Home maintenance workers",
-      ],
-    },
-    {
-      category: "Personal & Daily Assistance",
-      items: [
-        "Cleaning helpers",
-        "Household helpers",
-        "Babysitters / caretakers",
-        "Delivery helpers",
-        "Errand helpers",
-      ],
-    },
-    {
-      category: "Education & Tutoring",
-      items: [
-        "Home tutors",
-        "Language tutors",
-        "Skill coaches (music, dance, instruments)",
-      ],
-    },
-    {
-      category: "Creative & Event Services",
-      items: [
-        "Photographers",
-        "Videographers",
-        "Event helpers",
-        "Decoration helpers",
-      ],
-    },
-    {
-      category: "Outdoor & Labor Services",
-      items: [
-        "Garden/yard workers",
-        "Movers & loaders",
-        "Construction helpers",
-        "Handymen",
-      ],
-    },
-    {
-      category: "Local Freelance Professionals",
-      items: ["On-site designers", "Computer/laptop maintenance"],
-    },
-  ],
-  "Offer Work": [
-    {
-      category: "Get Started",
-      items: [
-        "Create Profile",
-        "Browse Available Jobs",
-        "Submit Proposals",
-        "Track Applications",
-      ],
-    },
-  ],
-};
-
-export default function Navbar() {
-  const [openDropdown, setOpenDropdown] = useState(null);
+const Navbar = () => {
+  const [activeDropdown, setActiveDropdown] = useState(null)
 
   return (
-    <nav className="sticky top-0 z-50 bg-background border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <a href="/" className="text-2xl font-bold text-primary">
-            Quickkam
-          </a>
+    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center space-x-6">
+            <Link to="/" className="text-xl font-bold text-[#181818]">
+              QUICKKAAM
+            </Link>
 
-          {/* Center Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            {["Browse Work", "Offer Work", "Why Quickkam", "Pricing"].map(
-              (item) => (
-                <div key={item} className="relative group">
-                  <button className="flex items-center gap-1 text-foreground hover:text-primary transition-colors">
-                    {item}
-                    {["Browse Work", "Offer Work"].includes(item) && (
-                      <ChevronDown size={16} />
-                    )}
-                  </button>
-
-                  {/* Dropdown */}
-                  {["Browse Work", "Offer Work"].includes(item) &&
-                    serviceCategories[item] && (
-                      <div className="absolute left-0 mt-0 w-96 bg-card border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0 p-6">
-                        <div className="grid grid-cols-2 gap-6">
-                          {serviceCategories[item].map((section) => (
-                            <div key={section.category}>
-                              <h3 className="font-semibold text-foreground mb-3 text-sm">
-                                {section.category}
-                              </h3>
-                              <ul className="space-y-2">
-                                {section.items.map((subitem) => (
-                                  <li key={subitem}>
-                                    <a
-                                      href="#"
-                                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                                    >
-                                      {subitem}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-6">
+            {/* Hire freelancers dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setActiveDropdown('hire')}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button
+                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                <span>Hire freelancers</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {activeDropdown === 'hire' && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                  <Link to="/hire/post-job" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Post a job
+                  </Link>
+                  <Link to="/hire/browse-talent" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Browse talent
+                  </Link>
+                  <Link to="/hire/agencies" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Hire agencies
+                  </Link>
                 </div>
-              )
-            )}
+              )}
+            </div>
+
+            {/* Find work dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setActiveDropdown('work')}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button
+                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                <span>Find work</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {activeDropdown === 'work' && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                  <Link to="/work/browse-jobs" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Browse jobs
+                  </Link>
+                  <Link to="/work/saved-jobs" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Saved jobs
+                  </Link>
+                  <Link to="/work/proposals" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    My proposals
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Why Upwork dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setActiveDropdown('why')}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button
+                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                <span>Why QUICKKAAM</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {activeDropdown === 'why' && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                  <Link to="/why/success-stories" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Success stories
+                  </Link>
+                  <Link to="/why/how-it-works" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    How it works
+                  </Link>
+                  <Link to="/why/reviews" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Reviews
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* What's new dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setActiveDropdown('new')}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button
+                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                <span>What's new</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {activeDropdown === 'new' && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                  <Link to="/new/features" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    New features
+                  </Link>
+                  <Link to="/new/blog" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Blog
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Pricing */}
+            <Link to="/pricing" className="text-gray-700 hover:text-gray-900 transition-colors">
+              Pricing
+            </Link>
+
+            {/* For enterprise */}
+            <Link to="/enterprise" className="text-gray-700 hover:text-gray-900 transition-colors">
+              For enterprise
+            </Link>
+            </div>
           </div>
 
-          {/* Right Auth Buttons */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#"
-              className="text-foreground hover:text-primary transition-colors hidden sm:block"
+          {/* Right Side: Auth Buttons */}
+          <div className="flex items-center space-x-4">
+            <Link
+              to="/auth/login"
+              className="text-gray-700 hover:text-gray-900 transition-colors font-medium"
             >
-              Sign In
-            </a>
-            <a
-              href="#"
-              className="bg-primary text-primary-foreground px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
+              Log in
+            </Link>
+            <Link
+              to="/auth/signup"
+              className="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium"
             >
-              Sign Up
-            </a>
+              Sign up
+            </Link>
           </div>
         </div>
       </div>
     </nav>
-  );
+  )
 }
+
+export default Navbar
