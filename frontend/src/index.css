@@ -123,3 +123,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: latina;
+  src: url('/fonts/Latina.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
