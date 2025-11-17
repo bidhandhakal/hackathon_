@@ -1,6 +1,49 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Cross-browser reset and normalization */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+  -moz-text-size-adjust: 100%; /* Firefox support */
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-size: 16px; /* Explicit base font size for consistency */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-feature-settings: "kern" 1; /* Enable kerning */
+  text-rendering: optimizeLegibility;
+  font-size: 1rem; /* Use rem for consistency */
+}
+
+/* Remove default button styles across browsers */
+button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Consistent input appearance */
+input, textarea, select {
+  font-family: inherit;
+  font-size: 100%;
+}
+
+/* Remove default focus outline and use custom */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
 
 @custom-variant dark (&:is(.dark *));
 
