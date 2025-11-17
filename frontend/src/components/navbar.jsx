@@ -9,13 +9,13 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 font-[latina]">
       <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-12 sm:h-12 lg:h-14">
+        <div className="flex justify-between items-center h-16 sm:h-16 lg:h-14">
           <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
             <Link to="/" className="flex items-center gap-2">
               <img
                 src="/logo-main.svg"
                 alt="QUICKKAAM"
-                className="h-6 sm:h-6 lg:h-7"
+                className="h-8 sm:h-8 lg:h-7"
               />
             </Link>
 
