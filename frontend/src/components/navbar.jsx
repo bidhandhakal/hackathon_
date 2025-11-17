@@ -9,13 +9,13 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 font-[latina]">
       <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-14 sm:h-16 lg:h-20">
           <div className="flex items-center space-x-3 md:space-x-4 lg:space-x-6">
             <Link to="/" className="flex items-center gap-2">
               <img
                 src="/logo-main.svg"
                 alt="QUICKKAAM"
-                className="h-8 sm:h-10"
+                className="h-7 sm:h-8 lg:h-10"
               />
             </Link>
 
@@ -36,40 +36,40 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "hire" && (
                   <div className="absolute top-full left-0 pt-2 pb-2">
-                    <div className="w-56 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                    <div className="w-64 bg-white border border-gray-200 rounded-md shadow-lg py-2">
                       <Link
                         to="/hire/post-job"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Post a job
                       </Link>
                       <Link
                         to="/hire/browse-talent"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Browse talent
                       </Link>
                       <Link
                         to="/hire/agencies"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Hire agencies
                       </Link>
                       <Link
                         to="/hire/project-catalog"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Project catalog
                       </Link>
                       <Link
                         to="/hire/talent-marketplace"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Talent marketplace
                       </Link>
                       <Link
                         to="/hire/hire-by-skill"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Hire by skill
                       </Link>
@@ -93,40 +93,40 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "work" && (
                   <div className="absolute top-full left-0 pt-2 pb-2">
-                    <div className="w-56 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                    <div className="w-64 bg-white border border-gray-200 rounded-md shadow-lg py-2">
                       <Link
                         to="/work/browse-jobs"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Browse jobs
                       </Link>
                       <Link
                         to="/work/saved-jobs"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Saved jobs
                       </Link>
                       <Link
                         to="/work/proposals"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         My proposals
                       </Link>
                       <Link
                         to="/work/profile"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Profile
                       </Link>
                       <Link
                         to="/work/my-stats"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         My stats
                       </Link>
                       <Link
                         to="/work/earnings"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Earnings
                       </Link>
@@ -150,40 +150,40 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "why" && (
                   <div className="absolute top-full left-0 pt-2 pb-2">
-                    <div className="w-56 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                    <div className="w-64 bg-white border border-gray-200 rounded-md shadow-lg py-2">
                       <Link
                         to="/why/success-stories"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Success stories
                       </Link>
                       <Link
                         to="/why/how-it-works"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         How it works
                       </Link>
                       <Link
                         to="/why/reviews"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Reviews
                       </Link>
                       <Link
                         to="/why/trust-safety"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Trust & safety
                       </Link>
                       <Link
                         to="/why/comparison"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Why choose us
                       </Link>
                       <Link
                         to="/why/resources"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Resources
                       </Link>
@@ -207,34 +207,34 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "new" && (
                   <div className="absolute top-full left-0 pt-2 pb-2">
-                    <div className="w-56 bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                    <div className="w-64 bg-white border border-gray-200 rounded-md shadow-lg py-2">
                       <Link
                         to="/new/features"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         New features
                       </Link>
                       <Link
                         to="/new/blog"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Blog
                       </Link>
                       <Link
                         to="/new/updates"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Platform updates
                       </Link>
                       <Link
                         to="/new/announcements"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Announcements
                       </Link>
                       <Link
                         to="/new/events"
-                        className="block px-5 py-3 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-4 text-lg text-gray-700 hover:bg-gray-100"
                       >
                         Events
                       </Link>
@@ -313,45 +313,45 @@ const Navbar = () => {
                   />
                 </button>
                 {activeDropdown === "hire" && (
-                  <div className="pl-4 space-y-2">
+                  <div className="pl-4 space-y-3">
                     <Link
                       to="/hire/post-job"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Post a job
                     </Link>
                     <Link
                       to="/hire/browse-talent"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Browse talent
                     </Link>
                     <Link
                       to="/hire/agencies"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Hire agencies
                     </Link>
                     <Link
                       to="/hire/project-catalog"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Project catalog
                     </Link>
                     <Link
                       to="/hire/talent-marketplace"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Talent marketplace
                     </Link>
                     <Link
                       to="/hire/hire-by-skill"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Hire by skill
@@ -376,45 +376,45 @@ const Navbar = () => {
                   />
                 </button>
                 {activeDropdown === "work" && (
-                  <div className="pl-4 space-y-2">
+                  <div className="pl-4 space-y-3">
                     <Link
                       to="/work/browse-jobs"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Browse jobs
                     </Link>
                     <Link
                       to="/work/saved-jobs"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Saved jobs
                     </Link>
                     <Link
                       to="/work/proposals"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       My proposals
                     </Link>
                     <Link
                       to="/work/profile"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Profile
                     </Link>
                     <Link
                       to="/work/my-stats"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       My stats
                     </Link>
                     <Link
                       to="/work/earnings"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Earnings
@@ -431,7 +431,7 @@ const Navbar = () => {
                   }
                   className="flex items-center justify-between w-full text-left text-gray-700 hover:text-gray-900 font-medium"
                 >
-                  <span>Why QUICKKAAM</span>
+                  <span>Why QuickKaam</span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
                       activeDropdown === "why" ? "rotate-180" : ""
@@ -439,45 +439,45 @@ const Navbar = () => {
                   />
                 </button>
                 {activeDropdown === "why" && (
-                  <div className="pl-4 space-y-2">
+                  <div className="pl-4 space-y-3">
                     <Link
                       to="/why/success-stories"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Success stories
                     </Link>
                     <Link
                       to="/why/how-it-works"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       How it works
                     </Link>
                     <Link
                       to="/why/reviews"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Reviews
                     </Link>
                     <Link
                       to="/why/trust-safety"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Trust & safety
                     </Link>
                     <Link
                       to="/why/comparison"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Why choose us
                     </Link>
                     <Link
                       to="/why/resources"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Resources
@@ -502,38 +502,38 @@ const Navbar = () => {
                   />
                 </button>
                 {activeDropdown === "new" && (
-                  <div className="pl-4 space-y-2">
+                  <div className="pl-4 space-y-3">
                     <Link
                       to="/new/features"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       New features
                     </Link>
                     <Link
                       to="/new/blog"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Blog
                     </Link>
                     <Link
                       to="/new/updates"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Platform updates
                     </Link>
                     <Link
                       to="/new/announcements"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Announcements
                     </Link>
                     <Link
                       to="/new/events"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
+                      className="block text-base py-1 text-gray-600 hover:text-gray-900"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Events
