@@ -273,7 +273,7 @@ const Navbar = () => {
             </Link>
             <Link
               to="/auth/signup"
-              className="hidden sm:block bg-black text-white px-3 sm:px-4 md:px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium text-xs md:text-sm whitespace-nowrap"
+              className="hidden sm:block bg-black text-white px-3 sm:px-4 md:px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium text-xs md:text-sm whitespace-nowrap shadow-[0_4px_16px_rgba(255,255,255,0.4)]"
             >
               Sign up
             </Link>
@@ -564,14 +564,14 @@ const Navbar = () => {
               <div className="pt-4 border-t border-gray-200 space-y-3">
                 <Link
                   to="/auth/login"
-                  className="block text-center text-gray-700 hover:text-gray-900 transition-colors font-medium py-2"
+                  className="block text-center text-gray-700 hover:text-gray-900 transition-colors font-medium py-2 border border-black rounded-lg"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Log in
                 </Link>
                 <Link
                   to="/auth/signup"
-                  className="block text-center bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                  className="block text-center bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-[0_4px_16px_rgba(255,255,255,0.4)]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Sign up
