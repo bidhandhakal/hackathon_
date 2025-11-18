@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 font-[latina]">
+    <nav className="bg-white sticky top-0 z-50 font-[latina]">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-16 lg:h-14">
           <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
@@ -273,7 +273,7 @@ const Navbar = () => {
             </Link>
             <Link
               to="/auth/signup"
-              className="hidden sm:block bg-black text-white px-3 sm:px-4 md:px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium text-xs md:text-sm whitespace-nowrap shadow-[0_4px_16px_rgba(255,255,255,0.4)]"
+              className="hidden sm:block bg-[#141111] text-white px-3 sm:px-4 md:px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium text-xs md:text-sm whitespace-nowrap shadow-[0_4px_16px_rgba(255,255,255,0.4)]"
             >
               Sign up
             </Link>
@@ -571,7 +571,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/auth/signup"
-                  className="block text-center bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-[0_4px_16px_rgba(255,255,255,0.4)]"
+                  className="block text-center bg-[#141111] text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-[0_4px_16px_rgba(255,255,255,0.4)]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Sign up
