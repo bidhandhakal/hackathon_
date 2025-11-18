@@ -173,3 +173,6 @@ input, textarea, select {
   font-weight: normal;
   font-style: normal;
 }
+*{
+  font-family: 'latina';
+}
