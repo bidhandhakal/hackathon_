@@ -171,3 +171,13 @@ input, textarea, select {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: wire;
+  src: url('/fonts/wayre.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+*::selection{
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
