@@ -173,6 +173,9 @@ input, textarea, select {
   font-weight: normal;
   font-style: normal;
 }
-*{
-  font-family: 'latina';
+@font-face {
+  font-family: hero;
+  src: url('/fonts/hero.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
