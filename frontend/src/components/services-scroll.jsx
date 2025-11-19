@@ -20,7 +20,6 @@ const services = [
   { title: "Videographers", image: "/videographer-filming.jpg" },
   { title: "Designers", image: "/designer-at-work.jpg" },
   { title: "Delivery Helpers", image: "/delivery-person.jpg" },
-
 ];
 
 export default function ServicesScroll() {
@@ -37,7 +36,7 @@ export default function ServicesScroll() {
   };
 
   return (
-    <section className="py-16 px-4 bg-background">
+    <section className="pt-0 pb-16 px-4 bg-background">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-foreground mb-8">
           Our Services
