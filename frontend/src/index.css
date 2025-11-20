@@ -181,3 +181,15 @@ input, textarea, select {
   background: var(--color-foreground);
   color: var(--color-background);
 }
+
+/* Force button color fix */
+button[class*="bg-primary"],
+.bg-primary {
+  background-color: hsl(0 0% 9%) !important;
+  color: hsl(0 0% 98%) !important;
+}
+
+button[class*="bg-primary"]:hover,
+.bg-primary:hover {
+  background-color: hsl(0 0% 15%) !important;
+}
