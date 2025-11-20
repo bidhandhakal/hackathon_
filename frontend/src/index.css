@@ -31,12 +31,12 @@ body {
 input, textarea, select {
   font-family: inherit;
   font-size: 100%;
+  outline: none;
 }
 
 /* Remove default focus outline and use custom */
 :focus-visible {
-  outline: 2px solid var(--color-ring);
-  outline-offset: 2px;
+  outline: none;
 }
 
 @custom-variant dark (&:is(.dark *));
