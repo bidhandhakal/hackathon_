@@ -58,28 +58,17 @@ export default function ProfilePage() {
         bio: profile.bio,
       });
 
-      const response = await api.auth.updateProfile({
+      const data = await api.auth.updateProfile({
         fullname: profile.fullname,
         phone: profile.phone,
         location: profile.location,
         bio: profile.bio,
       });
 
-      console.log("Update response status:", response.status);
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Profile updated successfully:", data);
-        setProfile(data.user);
-        setIsEditing(false);
-        alert("Profile updated successfully!");
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to update profile:", errorData);
-        alert(
-          `Failed to update profile: ${errorData.message || "Unknown error"}`
-        );
-      }
+      console.log("Profile updated successfully:", data);
+      setProfile(data.user);
+      setIsEditing(false);
+      alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
       alert(
@@ -95,13 +84,9 @@ export default function ProfilePage() {
   // ImageKit authenticator
   const authenticator = async () => {
     try {
-      const response = await api.auth.getImageKitAuth();
-      if (response.ok) {
-        const data = await response.json();
-        const { token, expire, signature } = data;
-        return { token, expire, signature };
-      }
-      throw new Error("Failed to authenticate with ImageKit");
+      const data = await api.auth.getImageKitAuth();
+      const { token, expire, signature } = data;
+      return { token, expire, signature };
     } catch (error) {
       console.error("ImageKit auth error:", error);
       throw error;

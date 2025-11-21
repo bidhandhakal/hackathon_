@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Questionnaire() {
@@ -12,6 +12,21 @@ export default function Questionnaire() {
     workPreference: [],
   });
   const [error, setError] = useState("");
+
+  // Check if user has already completed onboarding
+  useEffect(() => {
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        if (user.onboardingCompleted) {
+          navigate("/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Error checking onboarding status:", error);
+    }
+  }, [navigate]);
 
   const steps = [
     {

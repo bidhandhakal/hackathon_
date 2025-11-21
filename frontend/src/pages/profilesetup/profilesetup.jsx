@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
 import { IKContext, IKUpload } from "imagekitio-react";
@@ -33,6 +33,21 @@ export default function ResumeImport({ onBack, onContinue }) {
   const fileInputRef = useRef(null);
   const photoInputRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
+
+  // Check if user has already completed onboarding
+  useEffect(() => {
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        if (user.onboardingCompleted) {
+          navigate("/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Error checking onboarding status:", error);
+    }
+  }, [navigate]);
 
   const options = [
     {
@@ -249,17 +264,19 @@ export default function ResumeImport({ onBack, onContinue }) {
         availability: availability,
         profilePhoto: profilePhotoUrl,
         profilePhotoFileId: profilePhotoFileId,
+        onboardingCompleted: true, // Mark onboarding as completed
       };
 
       const data = await api.auth.updateProfile(profileData);
 
-      console.log("Profile saved successfully:", data);
-      // Navigate to dashboard or call onContinue
-      if (onContinue) {
-        onContinue();
-      } else {
-        navigate("/dashboard");
+      // Update localStorage with new user data
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
       }
+
+      console.log("Profile saved successfully:", data);
+      // Navigate to dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error saving profile:", error);
       alert(

@@ -68,6 +68,13 @@ export default function ProfileCarousel() {
         const userStr = localStorage.getItem("user");
         if (userStr) {
           const user = JSON.parse(userStr);
+          
+          // Redirect if onboarding is already completed
+          if (user.onboardingCompleted) {
+            navigate("/dashboard");
+            return;
+          }
+          
           const firstName = user.fullname
             ? user.fullname.split(" ")[0]
             : "User";
@@ -84,7 +91,7 @@ export default function ProfileCarousel() {
     };
 
     fetchUserName();
-  }, []);
+  }, [navigate]);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? profiles.length - 1 : prev - 1));

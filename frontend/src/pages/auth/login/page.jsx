@@ -42,10 +42,9 @@ export default function LoginPage() {
     <div className="w-full max-w-md animate-in fade-in-50 slide-in-from-bottom-5 duration-700">
       <Card className="p-8 border border-border bg-card shadow-lg hover:shadow-2xl transition-shadow duration-300">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-2 font-bold text-2xl text-primary mb-4 animate-in zoom-in-50 duration-500">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground shadow-lg">
-              Q
-            </div>
+          <div className="flex flex-col items-center justify-center space-x-2 font-bold text-2xl text-primary mb-4 animate-in zoom-in-50 duration-500">
+              <img src="/logo-main.svg"
+              alt="QuickKaam Logo" className="h-15 w-15"/>        
             <span>QuickKaam</span>
           </div>
           <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
@@ -158,7 +157,7 @@ export default function LoginPage() {
         </Button>
 
         <p className="text-center text-sm text-muted-foreground mt-6">
-          Don't have an account?{" "}
+          Don't have an account?{""}
           <Link
             to="/auth/signup"
             className="text-primary hover:text-primary/80 font-semibold transition-colors"

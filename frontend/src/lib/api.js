@@ -2,8 +2,6 @@
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8000/api";
-
-// Create axios instance with default config
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
@@ -12,7 +10,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// Add request interceptor to include auth token
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -26,7 +23,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add response interceptor for better error handling
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
