@@ -75,20 +75,6 @@ export default function ServicesScroll() {
               </div>
             ))}
           </div>
-
-          {/* Scroll Buttons */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-primary text-primary-foreground rounded-full p-2 hover:opacity-90 transition-opacity z-10"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-primary text-primary-foreground rounded-full p-2 hover:opacity-90 transition-opacity z-10"
-          >
-            <ChevronRight size={20} />
-          </button>
         </div>
       </div>
     </section>

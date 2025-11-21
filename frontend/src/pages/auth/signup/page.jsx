@@ -47,7 +47,6 @@ export default function SignupPage() {
         formData.password
       );
 
-      // Redirect to login page after successful registration
       navigate("/auth/login");
     } catch (err) {
       setError(
