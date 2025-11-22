@@ -173,7 +173,7 @@ input, textarea, select {
 }
 @font-face {
   font-family: wire;
-  src: url('/fonts/wayre.ttf') format('truetype');
+  src: url('/fonts/quick_text.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
 }
