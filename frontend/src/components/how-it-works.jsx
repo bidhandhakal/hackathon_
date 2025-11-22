@@ -8,6 +8,7 @@ import {
   Shield,
 } from "lucide-react";
 
+
 const hiringCards = [
   {
     title: "Posting a job is always free",
