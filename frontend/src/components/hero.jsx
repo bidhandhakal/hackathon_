@@ -30,7 +30,7 @@ function Hero() {
           <span className="text-[royalblue]">Quickkam</span> understands.
         </h1>
 
-        {/* Subheadline */}
+        {/* Subhedline */}
         <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl md:max-w-2xl mb-6 md:mb-10 leading-relaxed px-2 sm:px-0">
           Connect with a global network of expert freelancers. From development
           to design, find the right talent to scale your business today.
