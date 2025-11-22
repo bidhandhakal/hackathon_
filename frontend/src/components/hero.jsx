@@ -25,12 +25,12 @@ function Hero() {
 
       {/* Hero Content */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-start text-center px-4 pt-36 pb-26 md:pb-30 lg:pb-34 max-w-5xl mx-auto">
-        <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-8xl font-bold tracking-tight md:tracking-tighter mb-4 md:mb-6 max-w-4xl leading-[0.8] md:leading-19 font-[wire]">
-          Find the perfect <br className="hidden md:block" />
-          <span className="text-[royalblue]">freelance</span> services.
+        <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold tracking-tight md:tracking-tighter mb-4 md:mb-6 max-w-4xl leading-[0.8] md:leading-19 font-[wire]">
+          Quick help, quick hand<br className="hidden md:block" />
+          <span className="text-[royalblue]">Quickkam</span> understands.
         </h1>
 
-        {/* Subheadline */}
+        {/* Subhedline */}
         <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl md:max-w-2xl mb-6 md:mb-10 leading-relaxed px-2 sm:px-0">
           Connect with a global network of expert freelancers. From development
           to design, find the right talent to scale your business today.
